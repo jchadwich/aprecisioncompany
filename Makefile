@@ -5,3 +5,27 @@ image:
 
 shell:
 	@docker compose exec ${APP} /bin/bash
+
+dbshell:
+	@docker compose exec ${APP} bash -c "python3 manage.py dbshell"
+
+repl:
+	@docker compose exec ${APP} bash -c "python3 manage.py shell_plus"
+
+migrate_db:
+	@docker compose exec ${APP} bash -c "python3 manage.py migrate"
+
+check_migrations:
+	@docker compose exec ${APP} bash -c "python4 manage.py makemigrations --check"
+
+test:
+	@docker compose exec ${APP} bash -c "python3 manage.py test --parallel"
+
+fmt:
+	@docker compose exec ${APP} bash -c "black ."
+
+check_fmt:
+	@docker compose exec ${APP} bash -c "black --check ."
+
+lint:
+	@docker compose exec ${APP} bash -c "ruff ."

@@ -1,2 +1,2 @@
-# DJANGO_SETTINGS_MODULE=app.settings.development
+DJANGO_SETTINGS_MODULE=app.settings.development
 DJANGO_SECRET_KEY=fake-secret

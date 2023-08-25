@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   build-essential \
   ca-certificates \
   libpq-dev \
+  postgresql-client \
   python3-dev \
   python3-pip
 
