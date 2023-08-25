@@ -29,3 +29,6 @@ check_fmt:
 
 lint:
 	@docker compose exec ${APP} bash -c "ruff ."
+
+isort:
+	@docker compose exec ${APP} bash -c "isort ."

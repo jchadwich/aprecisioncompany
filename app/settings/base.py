@@ -5,7 +5,6 @@ from pathlib import Path
 from app.settings.auth import *
 from app.settings.db import *
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 

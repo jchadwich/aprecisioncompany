@@ -3,3 +3,7 @@ line-length = 88
 
 [tool.ruff]
 ignore = ["E501"]
+
+[tool.isort]
+profile = "black"
+skip_glob = ["*/migrations/*", "scripts/*", "manage.py"]
