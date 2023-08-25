@@ -1,0 +1,54 @@
+version: "3"
+
+networks:
+  default:
+    name: aprecisioncompany-dev
+    external: true
+
+volumes:
+  psql:
+    driver: local
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.app
+    command: python3 manage.py runserver 0.0.0.0:8000
+    environment:
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=pss_dev
+    env_file:
+      - docker/env
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/code
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8000/status/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgis/postgis:14-3.4
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=pss_dev
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 6432:5432
+    volumes:
+      - .:/code
+      - psql:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "--username", "postgres", "--dbname", "pss_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 3

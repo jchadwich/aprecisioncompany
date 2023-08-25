@@ -1,0 +1,10 @@
+[tool.black]
+line-length = 88
+
+[tool.ruff]
+select = ["E", "F", "I001"]
+ignore = ["E501"]
+
+[tool.isort]
+profile = "black"
+skip_glob = ["*/migrations/*", "scripts/*", "manage.py"]
