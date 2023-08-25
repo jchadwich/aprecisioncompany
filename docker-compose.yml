@@ -26,6 +26,11 @@ services:
       - 8000:8000
     volumes:
       - .:/code
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8000/status/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
     depends_on:
       db:
         condition: service_healthy

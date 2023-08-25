@@ -16,7 +16,7 @@ migrate_db:
 	@docker compose exec ${APP} bash -c "python3 manage.py migrate"
 
 check_migrations:
-	@docker compose exec ${APP} bash -c "python4 manage.py makemigrations --check"
+	@docker compose exec ${APP} bash -c "python3 manage.py makemigrations --check"
 
 test:
 	@docker compose exec ${APP} bash -c "python3 manage.py test --parallel"
