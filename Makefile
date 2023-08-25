@@ -22,13 +22,13 @@ test:
 	@docker compose exec ${APP} bash -c "python3 manage.py test --parallel"
 
 fmt:
-	@docker compose exec ${APP} bash -c "black ."
+	@docker compose run --rm ${APP} bash -c "black ."
 
 check_fmt:
-	@docker compose exec ${APP} bash -c "black --check ."
+	@docker compose run --rm ${APP} bash -c "black --check ."
 
 lint:
-	@docker compose exec ${APP} bash -c "ruff ."
+	@docker compose run --rm ${APP} bash -c "ruff ."
 
 isort:
-	@docker compose exec ${APP} bash -c "isort ."
+	@docker compose run --rm ${APP} bash -c "isort ."
