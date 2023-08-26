@@ -12,7 +12,7 @@
   <h1>Sign in</h1>
 
   <div class="container-social">
-    <a class="button-microsoft" href="/microsoft/to-auth-redirect/?next={{ request.GET.next }}">
+    <a class="button-microsoft" href="{% url 'microsoft:to-auth-redirect' %}?next={{ request.GET.next }}">
       <img src="{% static 'icons/microsoft_logo.svg' %}">
       Sign in with Microsoft
     </a>
