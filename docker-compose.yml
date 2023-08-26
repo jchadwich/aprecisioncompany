@@ -22,6 +22,7 @@ services:
       - DB_NAME=pss_dev
     env_file:
       - docker/env
+      - docker/env.secrets
     ports:
       - 8000:8000
     volumes:

@@ -3,7 +3,12 @@ This application is containerized using Docker and orchestrated locally using Do
 - Instructions to install [Docker Engine](https://docs.docker.com/engine/install/)
 - Instructions to install [Docker Compose](https://docs.docker.com/compose/install/)
 
-With Docker installed, use the following commands to get up and running:
+This application uses Microsoft Active Directory to authenticate and manage users. In order to use the application, the following environment variables must be set in the `docker/env.secrets` file. Please note that these values are **secret** and are not committed to the repository. If they are exposed, they should be rotated immediately. The values may be retrieved and managed from the Azure developer portal.
+- `MICROSOFT_AUTH_TENANT_ID`
+- `MICROSOFT_AUTH_CLIENT_ID`
+- `MICROSOFT_AUTH_CLIENT_SECRET`
+
+With Docker installed and Microsoft Active Directory configured, use the following commands to get up and running:
 - `make image` to build the Docker image
 - `docker compose up` to start the development server and initialize the database if it doesn't exist
   * This may take ~10s to start the web server because it depends on the database

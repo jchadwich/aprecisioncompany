@@ -1,0 +1,32 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-social {
+  display: block;
+}
+
+.button-microsoft {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 12px;
+  border: 1px solid #8c8c8c;
+  width: fit-content;
+  text-decoration: none;
+  color: #5e5e5e;
+  background-color: #ffffff;
+}
+
+.button-microsoft > img {
+  padding-right: 12px;
+}
+
+.button-microsoft:hover {
+  background-color: #fafafa;
+}
