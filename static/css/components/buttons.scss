@@ -1,0 +1,30 @@
+@import "../typography.scss";
+
+.btn {
+  @extend .text--label-lg;
+
+  height: 2.5rem;
+  width: fit-content;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &--microsoft {
+    padding: 0 12px;
+    border: 1px solid #8c8c8c;
+    color: #5e5e5e;
+    font-weight: 500;
+    font-size: 15px;
+  
+    img {
+      width: 24px;
+      height: 24px;
+      padding-right: 12px; 
+    }
+
+    &:hover {
+      background-color: #fafafa;
+    }
+  }
+}

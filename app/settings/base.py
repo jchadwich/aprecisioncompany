@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django_extensions",
+    "compressor",
     "microsoft_auth",
     "accounts",
 ]
@@ -79,6 +80,16 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = "static/"
 STATICFILES_DIRS = []
+
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "compressor.finders.CompressorFinder",
+]
+
+COMPRESS_PRECOMPILERS = [
+    ("text/x-scss", "django_libsass.SassCompiler"),
+]
 
 
 # Default primary key field type

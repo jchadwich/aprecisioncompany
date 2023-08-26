@@ -1,7 +1,9 @@
 django==4.2.4
 djangorestframework==3.14.0
-django-microsoft-auth==3.0.1
+django-compressor==4.4
 django-extensions==3.2.3
+django-libsass==0.9
+django-microsoft-auth==3.0.1
 gunicorn==21.2.0
 ipython==8.14.0
 psycopg==3.1.10

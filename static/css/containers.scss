@@ -1,0 +1,27 @@
+.fullscreen {
+  width: 100vw;
+  height: 100vh;
+}
+
+.flex {
+  display: flex;
+
+  &--x {
+    @extend .flex;
+    
+    flex-direction: row;
+  }
+
+  &--y {
+    @extend .flex;
+
+    flex-direction: column;
+  }
+
+  &--center {
+    @extend .flex;
+
+    align-items: center;
+    justify-content: center;
+  }
+}
