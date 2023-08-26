@@ -10,7 +10,7 @@ dbshell:
 	@docker compose exec ${APP} bash -c "python3 manage.py dbshell"
 
 repl:
-	@docker compose exec ${APP} bash -c "python3 manage.py shell_plus"
+	@docker compose exec ${APP} bash -c "python3 manage.py shell_plus --ipython"
 
 migrate_db:
 	@docker compose exec ${APP} bash -c "python3 manage.py migrate"

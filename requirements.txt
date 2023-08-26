@@ -3,5 +3,6 @@ djangorestframework==3.14.0
 django-microsoft-auth==3.0.1
 django-extensions==3.2.3
 gunicorn==21.2.0
+ipython==8.14.0
 psycopg==3.1.10
 tzdata==2023.3
