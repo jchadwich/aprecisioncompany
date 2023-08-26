@@ -1,6 +1,5 @@
 import os
 
-
 AUTH_USER_MODEL = "accounts.User"
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -33,4 +32,11 @@ MICROSOFT_AUTH_LOGIN_TYPE = "ma"
 AUTHENTICATION_BACKENDS = [
     "microsoft_auth.backends.MicrosoftAuthenticationBackend",
     "django.contrib.auth.backends.ModelBackend",
+]
+
+# Define the public URL regular expressions
+PUBLIC_URLS = [
+    "^/status/$",
+    "^/auth/*",
+    "^/microsoft/*",
 ]

@@ -1,10 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.http import JsonResponse
-from django.urls import path, include
+from django.urls import include, path
 
 from app.views import IndexView, status
-
 
 urlpatterns = [
     path("admin/", admin.site.urls),

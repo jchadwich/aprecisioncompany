@@ -9,4 +9,5 @@ def status(request):
 
 class IndexView(TemplateView):
     """Index page template view"""
+
     template_name = "core/index.html"
