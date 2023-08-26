@@ -15,6 +15,7 @@ ALLOWED_HOSTS = []
 ROOT_URLCONF = "app.urls"
 WSGI_APPLICATION = "app.wsgi.application"
 APPEND_SLASH = True
+SITE_ID = 1
 
 
 # Application definition
@@ -25,6 +26,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "microsoft_auth",
     "accounts",
 ]
 
@@ -53,6 +56,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "microsoft_auth.context_processors.microsoft",
             ],
         },
     },
@@ -68,6 +72,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 
 # Default primary key field type
