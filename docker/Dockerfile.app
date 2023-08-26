@@ -27,5 +27,8 @@ RUN pip3 install -r requirements.dev.txt
 # Copy the application code
 COPY . .
 
+# Collect Django's static files
+RUN python3 manage.py collectstatic --no-input
+
 # Configure the application server
-CMD ["tail", "-f", "/dev/null"]
+CMD ["gunicorn", "--config", "gunicorn.conf.py"]

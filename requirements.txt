@@ -6,3 +6,4 @@ gunicorn==21.2.0
 ipython==8.14.0
 psycopg==3.1.10
 tzdata==2023.3
+whitenoise[brotli]==6.5.0
