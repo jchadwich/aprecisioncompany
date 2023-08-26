@@ -1,9 +1,12 @@
 {% load static %}
+{% load compress %}
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="{% static 'css/core.css' %}">
+    {% compress css %}
+      <link rel="stylesheet" type="text/x-scss" href="{% static 'css/core.scss' %}" media="screen">
+    {% endcompress %}
 
     {% block head %}
       <title>Django App</title>

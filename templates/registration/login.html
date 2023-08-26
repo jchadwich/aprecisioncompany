@@ -2,17 +2,15 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/login.css' %}">
-
 <title>Login</title>
 {% endblock %}
 
 {% block content %}
-<div class="container">
-  <h1>Sign in</h1>
+<div class="fullscreen flex--center flex--y">
+  <h3>Sign in</h3>
 
-  <div class="container-social">
-    <a class="button-microsoft" href="{% url 'microsoft:to-auth-redirect' %}?next={{ request.GET.next }}">
+  <div class="py-8">
+    <a class="btn btn--microsoft" href="{% url 'microsoft:to-auth-redirect' %}?next={{ request.GET.next }}">
       <img src="{% static 'icons/microsoft_logo.svg' %}">
       Sign in with Microsoft
     </a>

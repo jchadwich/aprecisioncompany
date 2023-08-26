@@ -164,3 +164,6 @@ cython_debug/
 
 # Docker secrets
 docker/env.secrets
+
+# SCSS/SASS cache
+static/CACHE
