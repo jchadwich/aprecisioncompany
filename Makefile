@@ -1,5 +1,8 @@
 APP := app
 
+network:
+	@docker network create aprecisioncompany-dev || true
+
 image:
 	@docker compose build ${APP}
 
