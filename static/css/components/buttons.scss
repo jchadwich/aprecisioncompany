@@ -1,21 +1,52 @@
-@import "../typography.scss";
+@use "sass:color" as color;
+
+@import "../mds/colors.scss";
+@import "../mds/typography.scss";
+
 
 .btn {
   @extend .text--label-lg;
 
-  height: 2.5rem;
-  width: fit-content;
-  text-decoration: none;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  border-color: transparent;
+  border-radius: 0px;
+  border-style: solid;
+  border-width: 0;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  padding-left: 24px;
+  padding-right: 24px;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  width: fit-content;
+
+  &--filled {
+    @extend .btn;
+
+    background-color: $primary;
+    color: $on-primary;
+
+    &:hover {
+      background-color: darken($primary, 8%);
+    }
+  }
 
   &--microsoft {
-    padding: 0 12px;
-    border: 1px solid #8c8c8c;
+    @extend .btn;
+
+    border-width: 1px;
+    border-style: solid;
+    border-color: #8c8c8c;
+    border-radius: 0;
     color: #5e5e5e;
-    font-weight: 500;
     font-size: 15px;
+    font-weight: 500;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 12px;
+    padding-right: 12px;
+
   
     img {
       width: 24px;
@@ -24,7 +55,7 @@
     }
 
     &:hover {
-      background-color: #fafafa;
+      background-color: darken(#ffffff, 8%);
     }
   }
 }
