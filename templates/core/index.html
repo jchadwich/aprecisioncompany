@@ -2,5 +2,5 @@
 
 {% block content %}
 <p>Welcome {{ request.user.full_name }}</p>
-<a class="btn" href="{% url 'logout' %}">Logout</a>
+<a class="btn--filled" href="{% url 'logout' %}">Logout</a>
 {% endblock %}
