@@ -21,6 +21,6 @@ provider "aws" {
 }
 
 locals {
-  project = "aprecisioncompany"
-  env     = "dev"
+  project = var.project
+  env     = terraform.workspace == "production" ? "production" : "dev"
 }
