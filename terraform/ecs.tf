@@ -41,7 +41,9 @@ resource "aws_ecs_task_definition" "default" {
       memory    = 2048
       essential = true
 
-      # FIXME: add environment from AWS secrets
+      environment = [
+        for k, v in jsondecode(data.aws_secretsmanager_secret_version.default.secret_string) : { name = k, value = v }
+      ]
 
       portMappings = [
         {
@@ -50,6 +52,15 @@ resource "aws_ecs_task_definition" "default" {
           protocol      = "tcp"
         }
       ]
+
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group" : aws_cloudwatch_log_group.default.name
+          "awslogs-region" : var.region
+          "awslogs-stream-prefix" : "backend"
+        }
+      }
     }
   ])
 

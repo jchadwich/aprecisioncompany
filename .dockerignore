@@ -160,7 +160,7 @@ cython_debug/
 #.idea/
 
 # Vim
-.swp
+*.swp
 
 # Docker secrets
 docker/env.secrets

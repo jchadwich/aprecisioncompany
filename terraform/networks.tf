@@ -60,8 +60,9 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_subnet" "private" {
-  vpc_id                  = aws_vpc.default.id
-  count                   = length(var.availability_zones)
+  vpc_id = aws_vpc.default.id
+  count  = length(var.availability_zones)
+  # FIXME: update to just the length
   cidr_block              = cidrsubnet(aws_vpc.default.cidr_block, 8, (8 * length(var.availability_zones)) + count.index)
   availability_zone       = element(var.availability_zones, count.index)
   map_public_ip_on_launch = false
