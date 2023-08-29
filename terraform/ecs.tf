@@ -28,10 +28,9 @@ resource "aws_ecs_task_definition" "default" {
   family                   = "${local.project}-${local.env}-backend"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  //task_role_arn            = aws_iam_role.ecs_task.arn
-  execution_role_arn = data.aws_iam_role.ecs_execution.arn
-  cpu                = 1024
-  memory             = 2048
+  execution_role_arn       = data.aws_iam_role.ecs_execution.arn
+  cpu                      = 1024
+  memory                   = 2048
 
   container_definitions = jsonencode([
     {
