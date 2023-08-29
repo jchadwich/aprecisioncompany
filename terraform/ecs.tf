@@ -41,7 +41,7 @@ resource "aws_ecs_task_definition" "default" {
       essential = true
 
       environment = [
-        for k, v in jsondecode(data.aws_secretsmanager_secret_version.default.secret_string) : { name = k, value = v }
+        for k, v in local.secrets : { name = k, value = v }
       ]
 
       portMappings = [

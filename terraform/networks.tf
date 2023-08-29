@@ -150,7 +150,31 @@ resource "aws_security_group" "default" {
   }
 
   tags = {
-    Name        = "${local.project}-${local.env}"
+    Project     = local.project
+    Environment = local.env
+  }
+}
+
+resource "aws_security_group" "db" {
+  name        = "${local.project}-${local.env}-db"
+  vpc_id      = aws_vpc.default.id
+  description = "PostgreSQL database ingress/egress"
+
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
     Project     = local.project
     Environment = local.env
   }
