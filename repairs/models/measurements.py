@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.contrib.gis.db.models import PointField
-from django.db import models
+from django.db import models, transaction
 
 from repairs.models.constants import QuickDescription, SpecialCase
 from repairs.models.management import Project
+from repairs.parsers import MeasurementParser
 
 User = get_user_model()
 
@@ -48,10 +49,26 @@ class Measurement(models.Model):
         User, on_delete=models.SET_NULL, blank=True, null=True
     )
 
-    @classmethod
-    def import_from_csv(cls, file_obj, project, stage, created_by=None):
+    @staticmethod
+    def import_from_csv(file_obj, project, stage, created_by=None):
         """Import a series of Measurements from a CSV file stream"""
-        raise NotImplementedError
+        with transaction.atomic():
+            # Delete any measurements for the project with the same stage since
+            # any new CSV imports are replacements.
+            Measurement.objects.filter(project=project, stage=stage).delete()
+
+            # Parse each CSV row and insert the record
+            parser = MeasurementParser()
+            for kwargs in parser.parse(file_obj):
+                kwargs["project"] = project
+                kwargs["stage"] = stage
+                kwargs["created_by"] = created_by
+                images = kwargs.pop("images")
+
+                measurement = Measurement.objects.create(**kwargs)
+
+                for image in images:
+                    MeasurementImage.objects.create(measurement=measurement, **image)
 
 
 class MeasurementImage(models.Model):
@@ -60,10 +77,6 @@ class MeasurementImage(models.Model):
     measurement = models.ForeignKey(
         Measurement, on_delete=models.CASCADE, related_name="images"
     )
-    s3_bucket = models.CharField(max_length=50)
-    s3_key = models.CharField(max_length=255)
+    url = models.URLField(max_length=255)
     captured_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True
-    )

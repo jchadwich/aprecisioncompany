@@ -13,10 +13,18 @@ class SurveyInstructions(models.Model):
 
     project = models.OneToOneField(Project, on_delete=models.CASCADE, related_name="si")
     primary_contact = models.ForeignKey(
-        Contact, on_delete=models.SET_NULL, blank=True, null=True, related_name="_si_primary"
+        Contact,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="_si_primary",
     )
     secondary_contact = models.ForeignKey(
-        Contact, on_delete=models.SET_NULL, blank=True, null=True, related_name="_si_secondary"
+        Contact,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="_si_secondary",
     )
     bd = models.CharField(max_length=10)
     bda = models.CharField(max_length=10, blank=True, null=True)
