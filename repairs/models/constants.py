@@ -23,7 +23,7 @@ class SpecialCase(models.TextChoices):
     LEADWALK = ("L", "Leadwalk")
     METERS = ("ME", "Meters")
     MISSED = ("MI", "Missed")
-    REPLACE = ("R", "Replace (D&R)")
+    REPLACE = ("R", "Replace")
     SW2C = ("SW2C", "SW2C")
 
 

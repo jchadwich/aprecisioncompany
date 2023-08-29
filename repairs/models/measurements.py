@@ -4,7 +4,7 @@ from django.db import models, transaction
 
 from repairs.models.constants import QuickDescription, SpecialCase
 from repairs.models.management import Project
-from repairs.parsers import MeasurementParser
+from repairs.parsers.measurements import MeasurementParser
 
 User = get_user_model()
 
@@ -69,6 +69,8 @@ class Measurement(models.Model):
 
                 for image in images:
                     MeasurementImage.objects.create(measurement=measurement, **image)
+
+        return Measurement.objects.filter(project=project, stage=stage)
 
 
 class MeasurementImage(models.Model):
