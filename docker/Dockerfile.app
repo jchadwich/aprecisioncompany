@@ -31,5 +31,8 @@ COPY . .
 # Collect Django's static files
 RUN python3 manage.py collectstatic --no-input
 
+# Configure the ~/.bashrc
+RUN echo "alias dj='python3 /code/manage.py '" >> ~/.bashrc
+
 # Configure the application server
 CMD ["gunicorn", "--config", "gunicorn.conf.py"]
