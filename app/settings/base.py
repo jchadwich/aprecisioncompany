@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "compressor",
     "microsoft_auth",
+    "pages",
     "accounts",
     "management",
     "repairs",
