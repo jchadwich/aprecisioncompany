@@ -2,8 +2,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.gis.db.models import PointField
 from django.db import models, transaction
 
+from management.models import Project
 from repairs.models.constants import QuickDescription, SpecialCase
-from repairs.models.management import Project
 from repairs.parsers.measurements import MeasurementParser
 
 User = get_user_model()
