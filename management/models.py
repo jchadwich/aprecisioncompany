@@ -12,7 +12,7 @@ class Region(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Organization(models.Model):
+class Customer(models.Model):
     """External municipality or customer for project grouping"""
 
     name = models.CharField(max_length=100)
@@ -24,8 +24,8 @@ class Contact(models.Model):
     """Contact information for an external person"""
 
     name = models.CharField(max_length=100)
-    organization = models.ForeignKey(
-        Organization, on_delete=models.CASCADE, related_name="contacts"
+    customer = models.ForeignKey(
+        Customer, on_delete=models.CASCADE, related_name="contacts"
     )
     email = models.EmailField(max_length=255, blank=True, null=True)
     phone_number = models.CharField(max_length=10, blank=True, null=True)
@@ -35,7 +35,7 @@ class Contact(models.Model):
 
 
 class Project(models.Model):
-    """Independent project for an Organization"""
+    """Independent project for an Customer"""
 
     # TODO: status?
     # TODO: primary/secondary contacts?
@@ -43,8 +43,8 @@ class Project(models.Model):
 
     name = models.CharField(max_length=250)
     description = models.TextField(blank=True, null=True)
-    organization = models.ForeignKey(
-        Organization, on_delete=models.CASCADE, related_name="projects"
+    customer = models.ForeignKey(
+        Customer, on_delete=models.CASCADE, related_name="projects"
     )
     region = models.ForeignKey(Region, on_delete=models.SET_NULL, blank=True, null=True)
     contacts = models.ManyToManyField(
