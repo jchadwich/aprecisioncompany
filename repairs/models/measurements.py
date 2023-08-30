@@ -4,7 +4,7 @@ from django.db import models, transaction
 
 from management.models import Project
 from repairs.models.constants import QuickDescription, SpecialCase
-from repairs.parsers.measurements import MeasurementParser
+from repairs.parsers import MeasurementParser
 
 User = get_user_model()
 
