@@ -1,0 +1,12 @@
+@import "../layout/padding.scss";
+@import "../layout/containers.scss";
+
+.app-bar {
+  @extend .flex--center;
+  @extend .justify-content-between;
+  @extend .px-4;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 64px;
+}

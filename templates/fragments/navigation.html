@@ -1,0 +1,19 @@
+{% load static %}
+
+<nav class="app-bar">
+    <div class="flex align-items-center justify-content-start">
+      <h6>Precision Safe Sidewalks</h4>
+    </div>
+
+    <div class="flex--center">
+      <a class="btn--text mr-2" href="{% url 'index' %}">Home</a>
+      <a class="btn--text mr-2" href="{% url 'organization-list' %}">Organizations</a>
+      <a class="btn--text mr-2" href="{% url 'project-list' %}">Projects</a>
+      <a class="btn--text" href="#">Settings</a>
+    </div>
+
+    <div class="flex align-items-center justify-content-end">
+      <a class="btn--filled" href="{% url 'logout' %}">Logout</a>
+    </div>
+  </div>
+</nav>

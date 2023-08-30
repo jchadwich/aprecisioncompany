@@ -1,6 +1,9 @@
-@import "./mds/typography.scss";
-@import "./padding.scss";
-@import "./containers.scss";
+@import "./theme/typography.scss";
+@import "./theme/colors.scss";
+@import "./layout/padding.scss";
+@import "./layout/margin.scss";
+@import "./layout/containers.scss";
+@import "./components/app_bar.scss";
 @import "./components/buttons.scss";
 
 body {
