@@ -1,4 +1,5 @@
 import csv
+import re
 
 from repairs.models.constants import QuickDescription, SpecialCase
 
@@ -47,7 +48,7 @@ class MeasurementParser:
 
             # Parse any complex columns (dependent on more than one field)
             item["location"] = self.parse_location(data)
-            item["images"] = []
+            item["images"] = self.parse_images(data)
 
             records.append(item)
 
@@ -81,3 +82,20 @@ class MeasurementParser:
         x = float(data["x"])
         y = float(data["y"])
         return (x, y)
+
+    def parse_images(self, data):
+        """Parse the list of images from the data"""
+        images = []
+
+        for key in data:
+            match = re.match("^Image Link(?P<count>\d+)$", key)
+
+            if match is not None:
+                count = match.group("count")
+                image = {
+                    "url": data[key],
+                    "captured_at": data[f"Image Timestamp{count}"],
+                }
+                images.append(image)
+
+        return images
