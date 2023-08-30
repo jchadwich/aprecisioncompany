@@ -10,19 +10,19 @@ shell:
 	@docker compose exec ${APP} /bin/bash
 
 dbshell:
-	@docker compose exec ${APP} bash -c "dj dbshell"
+	@docker compose exec ${APP} bash -c "python3 manage.py dbshell"
 
 repl:
-	@docker compose exec ${APP} bash -c "dj shell_plus --ipython"
+	@docker compose exec ${APP} bash -c "python3 manage.py shell_plus -- -i scripts/repl.py"
 
 migrate_db:
-	@docker compose exec ${APP} bash -c "dj migrate"
+	@docker compose exec ${APP} bash -c "python3 manage.py migrate"
 
 check_migrations:
-	@docker compose exec ${APP} bash -c "dj makemigrations --check"
+	@docker compose exec ${APP} bash -c "python3 manage.py makemigrations --check"
 
 test:
-	@docker compose run --rm ${APP} bash -c "dj test --parallel"
+	@docker compose run --rm ${APP} bash -c "python3 manage.py test --parallel"
 
 fmt:
 	@docker compose run --rm ${APP} bash -c "black ."
