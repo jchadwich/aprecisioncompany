@@ -53,7 +53,37 @@ class Project(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # TODO: add, remove, change order for Contacts
+    def has_contact(self, contact):
+        """Return True if the Project has the Contact"""
+        return self.contacts.filter(pk=contact.pk).exists()
+
+    def insert_contact(self, contact, order=None):
+        """Insert a new Contact for the Project"""
+        if not self.has_contact(contact):
+            if order is None:
+                order = self.contacts.count()
+
+            ProjectContact.objects.create(project=self, contact=contact, order=order)
+
+    def remove_contact(self, contact):
+        """Remove a Contact from the Project"""
+        self.contacts.filter(pk=contact.pk).delete()
+        contacts = self.contacts.order_by("order")
+        self.reorder_contacts(contacts)
+
+    def reorder_contacts(self, contacts):
+        """Reorder the Contacts in the Project according to the list"""
+        order = 0
+
+        for index, contact in enumerate(contacts):
+            if not self.has_contact(contact):
+                continue
+
+            record = ProjectContact.objects.get(project=self, contact=contact)
+            record.order = order
+            record.save()
+
+            order += 1
 
 
 class ProjectContact(models.Model):
