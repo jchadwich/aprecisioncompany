@@ -1,7 +1,34 @@
 {% extends "base.html" %}
 
+{% block title %}
+{{ customer.name }}
+{% endblock %}
+
 {% block content %}
-<div class="fullscreen flex--center">
-  <h2>Customer Detail</h2>
+<div class="m-24">
+  <h3>Customer: {{ customer.name }}</h3>
+
+  <div class="mt-12">
+    <div>
+      <h5>Projects</h5>
+      <div class="mt-2">
+        <a class="btn--tonal" href="{% url 'customer-project-create' pk=customer.pk %}">
+          Add project
+        </a>
+      </div>
+    </div>
+
+    {% if customer.number_of_projects %}
+    <ul>
+    {% for project in customer.projects.all %}
+      <li>
+        <a href="{% url 'project-detail' pk=project.pk %}">{{ project.name }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+    {% else %}
+      <p>No projects found</p>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}

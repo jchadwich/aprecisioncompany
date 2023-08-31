@@ -1,8 +1,9 @@
+from django.shortcuts import get_object_or_404, reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import FormView
 
-from management.models import Customer
-from pages.forms.customers import CustomerForm
+from management.models import Customer, Project
+from pages.forms.customers import CustomerForm, CustomerProjectForm
 
 
 class CustomerListView(ListView):
@@ -31,3 +32,23 @@ class CustomerDetailView(DetailView):
     model = Customer
     template_name = "customers/customer_detail.html"
     context_object_name = "customer"
+
+
+class CustomerProjectCreate(FormView):
+    """Project create view for a Customer"""
+
+    form_class = CustomerProjectForm
+    template_name = "customers/customer_project_create.html"
+
+    def get(self, request, pk):
+        get_object_or_404(Customer, pk=pk)
+        return super().get(request, pk)
+
+    def get_success_url(self):
+        """Return the URL to redirect to on success"""
+        return reverse("project-detail", kwargs={"pk": self.project.pk})
+
+    def form_valid(self, form):
+        customer = get_object_or_404(Customer, pk=self.kwargs["pk"])
+        self.project = Project.objects.create(customer=customer, **form.cleaned_data)
+        return super().form_valid(form)

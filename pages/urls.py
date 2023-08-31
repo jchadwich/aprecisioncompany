@@ -14,6 +14,11 @@ urlpatterns = [
         customer_views.CustomerDetailView.as_view(),
         name="customer-detail",
     ),
+    path(
+        "customers/<int:pk>/projects/new/",
+        customer_views.CustomerProjectCreate.as_view(),
+        name="customer-project-create",
+    ),
     path("projects/", project_views.ProjectListView.as_view(), name="project-list"),
     path(
         "projects/<int:pk>/",

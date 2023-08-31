@@ -1,7 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="fullscreen flex--center">
-  <h2>Project Detail</h2>
+<div class="mx-24 my-24">
+  <h3>Project: {{ project.name }} (Customer {{ project.customer.name }})</h3>
+
+  <div class="mt-12">
+    <h5>Measurements</h5>
+    <div>
+      <div>
+      {% with measurements=project.get_initial_measurements %}
+        {% if measurements.exists %}
+        <p>
+          Stage: Initial - {{ measurements.count }} measurements
+          <a href="{% url 'project-map' pk=project.pk %}?stage=initial">View Map</a>
+        {% else %}
+          <p>Upload</p>
+        {% endif %}
+      {% endwith %}
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

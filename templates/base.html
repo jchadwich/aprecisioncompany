@@ -10,9 +10,15 @@
 
     <!-- Google Fonts (Material Icons) -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+      
+    
+    <title>
+    {% block title %}
+      Precision Safe Sidewalks
+    {% endblock %}
+    </title>
 
     {% block head %}
-      <title>Precision Safe Sidewalks</title>
     {% endblock %}
     
     <meta charset="utf-8">
@@ -22,7 +28,7 @@
     {% block body %}
       {% include "fragments/navigation.html" %}
     
-      <main>
+      <main class="mt-16">
         {% block content %}{% endblock %}
       </main>
     {% endblock %}

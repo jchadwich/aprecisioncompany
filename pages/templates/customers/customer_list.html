@@ -1,7 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="fullscreen flex--center">
+<div class="mx-24 my-24">
   <h2>Customer List</h2>
+
+  <div class="my-4">
+    <a class="btn--tonal" href="{% url 'customer-create' %}">
+      Add customer
+    </a>
+  </div>
+
+  <ul>
+  {% for customer in customers %}
+    <li>
+      <a href="{% url 'customer-detail' pk=customer.pk %}">
+        {{ customer.name }}
+      </a>
+    </li>
+  {% endfor %}
+  </ul>
 </div>
 {% endblock %}

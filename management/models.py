@@ -11,6 +11,10 @@ class Region(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        """Return the string representation"""
+        return self.name
+
 
 class Customer(models.Model):
     """External municipality or customer for project grouping"""
@@ -89,6 +93,22 @@ class Project(models.Model):
             record.save()
 
             order += 1
+
+    def get_initial_measurements(self):
+        """Return the queryset of initial Measurements"""
+        from repairs.models import Measurement
+
+        return self.measurements.filter(stage=Measurement.Stage.INITIAL).order_by(
+            "object_id"
+        )
+
+    def get_final_measurements(self):
+        """Return the QuerySet of final Measurements"""
+        from repairs.models import Measurement
+
+        return self.measurements.filter(stage=Measurement.Stage.FINAL).order_by(
+            "object_id"
+        )
 
 
 class ProjectContact(models.Model):
