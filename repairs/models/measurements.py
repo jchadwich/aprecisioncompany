@@ -1,10 +1,11 @@
+import googlemaps
+from django.conf import settings
 from django.contrib.gis.db.models.fields import PointField
 from django.db import models, transaction
 
 from repairs.models.constants import QuickDescription, SpecialCase
 from repairs.models.projects import Project
 from repairs.parsers import ProductionMeasurement, SurveyMeasurement
-from utils.radar import get_reverse_geocoded_address
 
 
 class Measurement(models.Model):
@@ -53,8 +54,14 @@ class Measurement(models.Model):
 
     def get_geocoded_address(self):
         """Return the reverse geocoded address from the coordinate"""
-        (longitude, latitude) = self.coordinate.coords
-        return get_reverse_geocoded_address(latitude, longitude)
+        client = googlemaps.Client(key=settings.GOOGLE_API_KEY)
+        addresses = client.reverse_geocode((self.coordinate.y, self.coordinate.x))
+
+        for address in addresses:
+            if address["types"] == ["premise"]:
+                return address["formatted_address"]
+
+        return None
 
     @staticmethod
     def import_from_csv(file_obj, project, stage):

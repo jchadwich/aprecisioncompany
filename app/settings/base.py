@@ -99,7 +99,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Google API key
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
-
-# Radara API key
-RADAR_API_KEY = os.environ.get("RADAR_API_KEY")
-RADAR_BASE_URL = "https://api.radar.io"
