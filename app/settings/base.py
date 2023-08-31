@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "compressor",
     "microsoft_auth",
     "accounts",
+    "pss",
 ]
 
 
