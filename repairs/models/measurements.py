@@ -1,8 +1,9 @@
 from django.contrib.gis.db.models.fields import PointField
-from django.db import models
+from django.db import models, transaction
 
 from repairs.models.constants import QuickDescription, SpecialCase
 from repairs.models.projects import Project
+from repairs.parsers import SurveyMeasurement, ProductionMeasurement
 
 
 class Measurement(models.Model):
@@ -35,12 +36,30 @@ class Measurement(models.Model):
     curb_length = models.FloatField(blank=True, null=True)
     survey_address = models.CharField(max_length=255, blank=True, null=True)
     surveyor = models.CharField(max_length=100)
-    geocoded_address = models.CharField(
-        max_length=255, blank=True, null=True
-    )  # TODO: handle via API
     note = models.TextField(blank=True, null=True)
     measured_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    # TODO: geocoded address
+
+    @staticmethod
+    def import_from_csv(file_obj, project, stage):
+        """Import the Measurements from CSV (replaces any existing)"""
+        file_obj.seek(0)
+
+        if stage == Measurement.Stage.SURVEY:
+            parser_cls = SurveyMeasurement
+        else:
+            parser_cls = ProductionMeasurement
+
+        with transaction.atomic():
+            Measurement.objects.filter(project=project, stage=stage).delete()
+
+            for data in parser_cls.from_csv(file_obj):
+                kwargs = data.model_dump()
+                Measurement.objects.create(project=project, stage=stage, **kwargs)
+
+        return Measurement.objects.filter(project=project, stage=stage)
 
 
 class MeasurementImage(models.Model):
