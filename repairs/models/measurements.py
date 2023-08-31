@@ -3,7 +3,8 @@ from django.db import models, transaction
 
 from repairs.models.constants import QuickDescription, SpecialCase
 from repairs.models.projects import Project
-from repairs.parsers import SurveyMeasurement, ProductionMeasurement
+from repairs.parsers import ProductionMeasurement, SurveyMeasurement
+from utils.radar import get_reverse_geocoded_address
 
 
 class Measurement(models.Model):
@@ -35,12 +36,25 @@ class Measurement(models.Model):
     slope = models.CharField(max_length=10, blank=True, null=True)
     curb_length = models.FloatField(blank=True, null=True)
     survey_address = models.CharField(max_length=255, blank=True, null=True)
-    surveyor = models.CharField(max_length=100)
+    surveyor = models.CharField(
+        max_length=100, blank=True, null=True
+    )  # TODO: make required
     note = models.TextField(blank=True, null=True)
+    geocoded_address = models.CharField(max_length=255, blank=True, null=True)
     measured_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-    # TODO: geocoded address
+    def save(self, **kwargs):
+        # FIXME: this needs to happen asynchronously (in Celery?)
+        if not self.geocoded_address:
+            self.geocoded_address = self.get_geocoded_address()
+
+        return super().save(**kwargs)
+
+    def get_geocoded_address(self):
+        """Return the reverse geocoded address from the coordinate"""
+        (longitude, latitude) = self.coordinate.coords
+        return get_reverse_geocoded_address(latitude, longitude)
 
     @staticmethod
     def import_from_csv(file_obj, project, stage):

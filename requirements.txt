@@ -4,6 +4,7 @@ django-compressor==4.4
 django-extensions==3.2.3
 django-libsass==0.9
 django-microsoft-auth==3.0.1
+googlemaps==4.10.0
 gunicorn==21.2.0
 ipython==8.14.0
 pydantic==2.3.0
