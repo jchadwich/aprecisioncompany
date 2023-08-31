@@ -85,7 +85,7 @@
   &--title-sm {
     @extend %typography;
 
-    font-weight: 600;
+    font-weight: 500;
     font-size: 0.875rem;
     line-height: 1.25rem;
     letter-spacing: 0.00625rem;
@@ -94,7 +94,7 @@
   &--label-lg {
     @extend %typography;
 
-    font-weight: 600;
+    font-weight: 500;
     font-size: 0.875rem;
     line-height: 1.25rem;
     letter-spacing: 0.00625rem;
@@ -103,7 +103,7 @@
   &--label-md {
     @extend %typography;
     
-    font-weight: 600;
+    font-weight: 500;
     font-size: 0.75rem;
     line-height: 1rem;
     letter-spacing: 0.03125rem;
@@ -112,7 +112,7 @@
   &--label-sm {
     @extend %typography;
     
-    font-weight: 600;
+    font-weight: 500;
     font-size: 0.6875rem;
     line-height: 1rem;
     letter-spacing: 0.03125rem;

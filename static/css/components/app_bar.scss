@@ -1,3 +1,4 @@
+@import "../theme/colors.scss";
 @import "../layout/padding.scss";
 @import "../layout/containers.scss";
 
@@ -9,4 +10,14 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   height: 64px;
+  position: fixed;
+  width: calc(100vw - 32px);
+
+  &--outlined {
+    @extend .app-bar;
+
+    border-bottom-color: rgba($outline, 0.3);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+  }
 }

@@ -8,6 +8,9 @@
       <link rel="stylesheet" type="text/x-scss" href="{% static 'css/styles.scss' %}" media="screen">
     {% endcompress %}
 
+    <!-- Google Fonts (Material Icons) -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
     {% block head %}
       <title>Precision Safe Sidewalks</title>
     {% endblock %}
@@ -16,10 +19,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    {% block nav %}
-      {% include "navigation.html" %}
+    {% block body %}
+      {% include "fragments/navigation.html" %}
+    
+      <main>
+        {% block content %}{% endblock %}
+      </main>
     {% endblock %}
-
-    {% block content %}{% endblock %}
   </body>
 </html>

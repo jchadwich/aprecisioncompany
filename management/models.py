@@ -19,6 +19,11 @@ class Customer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    @property
+    def number_of_projects(self):
+        """Return the total number of projects"""
+        return self.projects.count()
+
 
 class Contact(models.Model):
     """Contact information for an external person"""

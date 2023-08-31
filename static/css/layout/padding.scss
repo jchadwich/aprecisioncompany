@@ -33,6 +33,22 @@ $spacing: 4px;
   padding-top: $spacing * 8;
 }
 
+.pt-12 {
+  padding-top: $spacing * 12;
+}
+
+.pt-16 {
+  padding-top: $spacing * 16;
+}
+
+.pt-20 {
+  padding-top: $spacing * 20;
+}
+
+.pt-24 {
+  padding-top: $spacing * 24;
+}
+
 /* Padding bottom only */
 .pb-1 {
   padding-bottom: $spacing;
@@ -64,6 +80,22 @@ $spacing: 4px;
 
 .pb-8 {
   padding-bottom: $spacing * 8;
+}
+
+.pb-12 {
+  padding-bottom: $spacing * 12;
+}
+
+.pb-16 {
+  padding-bottom: $spacing * 16;
+}
+
+.pb-20 {
+  padding-bottom: $spacing * 20;
+}
+
+.pb-24 {
+  padding-bottom: $spacing * 24;
 }
 
 /* Padding left only */
@@ -99,6 +131,22 @@ $spacing: 4px;
   padding-left: $spacing * 8;
 }
 
+.pl-12 {
+  padding-left: $spacing * 12;
+}
+
+.pl-16 {
+  padding-left: $spacing * 16;
+}
+
+.pl-20 {
+  padding-left: $spacing * 20;
+}
+
+.pl-24 {
+  padding-left: $spacing * 24;
+}
+
 /* Padding right only */
 .pr-1 {
   padding-right: $spacing;
@@ -130,6 +178,22 @@ $spacing: 4px;
 
 .pr-8 {
   padding-right: $spacing * 8;
+}
+
+.pr-12 {
+  padding-right: $spacing * 12;
+}
+
+.pr-16 {
+  padding-right: $spacing * 16;
+}
+
+.pr-20 {
+  padding-right: $spacing * 20;
+}
+
+.pr-24 {
+  padding-right: $spacing * 24;
 }
 
 /* Padding y-axis only (top and bottom) */
@@ -173,6 +237,26 @@ $spacing: 4px;
   @extend .pb-8;
 }
 
+.py-12 {
+  @extend .pt-12;
+  @extend .pb-12;
+}
+
+.py-16 {
+  @extend .pt-16;
+  @extend .pb-16;
+}
+
+.py-20 {
+  @extend .pt-20;
+  @extend .pb-20;
+}
+
+.py-24 {
+  @extend .pt-24;
+  @extend .pb-24;
+}
+
 /* Padding x-axis only (left and right) */
 .px-1 {
   @extend .pl-1;
@@ -214,6 +298,26 @@ $spacing: 4px;
   @extend .pr-8;
 }
 
+.px-12 {
+  @extend .pl-12;
+  @extend .pr-12;
+}
+
+.px-16 {
+  @extend .pl-16;
+  @extend .pr-16;
+}
+
+.px-20 {
+  @extend .pl-20;
+  @extend .pr-20;
+}
+
+.px-24 {
+  @extend .pl-24;
+  @extend .pr-24;
+}
+
 /* Padding on all sides */
 .p-1 {
   @extend .px-1;
@@ -253,4 +357,24 @@ $spacing: 4px;
 .p-8 {
   @extend .px-8;
   @extend .py-8;
+}
+
+.p-12 {
+  @extend .px-12;
+  @extend .py-12;
+}
+
+.p-16 {
+  @extend .px-16;
+  @extend .py-16;
+}
+
+.p-20 {
+  @extend .px-20;
+  @extend .py-20;
+}
+
+.p-24 {
+  @extend .px-24;
+  @extend .py-24;
 }
