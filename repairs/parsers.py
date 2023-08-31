@@ -1,5 +1,8 @@
 import csv
 import re
+from datetime import datetime, timezone
+
+from django.contrib.gis.geos import Point
 
 from repairs.models.constants import QuickDescription, SpecialCase
 
@@ -8,24 +11,24 @@ class MeasurementParser:
     """Measurement record parser for CSV file"""
 
     _columns = {
-        "No.": "object_id",
+        "OBJECTID": "object_id",
         "H1": "h1",
         "H2": "h2",
-        "Location": "address",
-        "City": "city",
-        "State": "state",
-        "Country": "country",
-        "Zip Code": "zip_code",
+        "Survey Address": "survey_address",
+        # "City": "city",
+        # "State": "state",
+        # "Country": "country",
+        # "Zip Code": "zip_code",
         "Special Case": "special_case",
         "Quick Description": "quick_description",
-        "Lineal Feet": "lineal_feet",
-        "Inch Feet": "inch_feet",
-        "Cost": "cost",
+        # "Lineal Feet": "lineal_feet",
+        # "Inch Feet": "inch_feet",
+        # "Cost": "cost",
         "Notes": "note",
-        "Width": "width",
         "Length": "length",
-        "Quality": "quality",
-        "Date": "date",
+        "Width": "width",
+        # "Quality": "quality",
+        "CreationDate": "measured_at",
     }
 
     def parse(self, file_obj):
@@ -76,15 +79,22 @@ class MeasurementParser:
 
         raise ValueError(f"Invalid quick description: {value}")
 
+    def parse_measured_at(self, value, data):
+        """Parse the UTC CreationDate from the raw data"""
+        measured_at = datetime.strptime(value, "%m/%d/%Y %H:%M")
+        measured_at = measured_at.replace(tzinfo=timezone.utc)
+        return measured_at
+
     def parse_location(self, data):
         """Parse the coordinate from the (x, y) values"""
         # FIXME: check longitude/latitude
         x = float(data["x"])
         y = float(data["y"])
-        return (x, y)
+        return Point(x, y)
 
     def parse_images(self, data):
         """Parse the list of images from the data"""
+        # FIXME: update to support ArcGIS exports (currently not available)
         images = []
 
         for key in data:

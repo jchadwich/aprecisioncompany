@@ -1,11 +1,14 @@
 from django.urls import path
 
-from pages.views import index_views, customer_views, project_views
-
+from pages.views import customer_views, index_views, project_views
 
 urlpatterns = [
     path("customers/", customer_views.CustomerListView.as_view(), name="customer-list"),
-    path("customers/new/", customer_views.CustomerCreateView.as_view(), name="customer-create"),
+    path(
+        "customers/new/",
+        customer_views.CustomerCreateView.as_view(),
+        name="customer-create",
+    ),
     path(
         "customers/<int:pk>/",
         customer_views.CustomerDetailView.as_view(),

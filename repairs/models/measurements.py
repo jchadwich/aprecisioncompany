@@ -22,32 +22,34 @@ class Measurement(models.Model):
         Project, on_delete=models.CASCADE, related_name="measurements"
     )
     stage = models.CharField(max_length=10, choices=Stage.choices)
-    address = models.CharField(max_length=255)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=2)
-    country = models.CharField(max_length=50)
-    zip_code = models.CharField(max_length=6)
+    survey_address = models.CharField(max_length=255, blank=True, null=True)
+    # city = models.CharField(max_length=100, blank=True, null=True)
+    # state = models.CharField(max_length=2, blank=True, null=True)
+    # country = models.CharField(max_length=50, blank=True, null=True)
+    # zip_code = models.CharField(max_length=6, blank=True, null=True)
     quick_description = models.CharField(
         max_length=10, choices=QuickDescription.choices, blank=True, null=True
     )
     special_case = models.CharField(
         max_length=10, choices=SpecialCase.choices, blank=True, null=True
     )
-    h1 = models.FloatField()
-    h2 = models.FloatField()
+    h1 = models.FloatField(blank=True, null=True)
+    h2 = models.FloatField(blank=True, null=True)
     location = PointField()
-    length = models.FloatField()
-    width = models.FloatField()
-    lineal_feet = models.FloatField()
-    inch_feet = models.FloatField()
-    cost = models.FloatField()
-    quality = models.FloatField(blank=True, null=True)
+    length = models.FloatField(blank=True, null=True)
+    width = models.FloatField(blank=True, null=True)
+    # lineal_feet = models.FloatField()
+    # inch_feet = models.FloatField()
+    # cost = models.FloatField()
+    # quality = models.FloatField(blank=True, null=True)
     note = models.TextField(blank=True, null=True)
     measured_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True
     )
+
+    # TODO: curb length?
 
     @staticmethod
     def import_from_csv(file_obj, project, stage, created_by=None):
