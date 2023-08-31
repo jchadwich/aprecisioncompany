@@ -34,7 +34,10 @@ class Measurement(models.Model):
     slope = models.CharField(max_length=10, blank=True, null=True)
     curb_length = models.FloatField(blank=True, null=True)
     survey_address = models.CharField(max_length=255, blank=True, null=True)
-    surveyor = models.CharField(max_length=100, blank=True, null=True)  # creator
+    surveyor = models.CharField(max_length=100)
+    geocoded_address = models.CharField(
+        max_length=255, blank=True, null=True
+    )  # TODO: handle via API
     note = models.TextField(blank=True, null=True)
     measured_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
