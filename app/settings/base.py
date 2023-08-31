@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "microsoft_auth",
     "accounts",
     "pss",
+    "repairs",
 ]
 
 
