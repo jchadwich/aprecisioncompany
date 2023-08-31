@@ -45,15 +45,10 @@ class Measurement(models.Model):
     measured_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def save(self, **kwargs):
-        # FIXME: this needs to happen asynchronously (in Celery?)
-        if not self.geocoded_address:
-            self.geocoded_address = self.get_geocoded_address()
-
-        return super().save(**kwargs)
-
     def get_geocoded_address(self):
         """Return the reverse geocoded address from the coordinate"""
+        # FIXME: process asynchronousy
+
         client = googlemaps.Client(key=settings.GOOGLE_API_KEY)
         addresses = client.reverse_geocode((self.coordinate.y, self.coordinate.x))
 
