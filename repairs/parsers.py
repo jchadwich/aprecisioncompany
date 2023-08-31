@@ -3,14 +3,15 @@ import uuid
 from datetime import datetime, timezone
 from typing import Optional
 
+from dateutil.parser import parse as parse_dt
 from django.contrib.gis.geos import Point
 from pydantic import BaseModel, Field, validator
 
-from repairs.models.constants import SpecialCase, QuickDescription
+from repairs.models.constants import QuickDescription, SpecialCase
 
 
-class SurveyMeasurement(BaseModel):
-    """Measurement record from a survey CSV"""
+class BaseMeasurement(BaseModel):
+    """Base measurement record with common attributes"""
 
     object_id: int = Field(alias="OBJECTID")
     global_id: uuid.UUID = Field(alias="GlobalID")
@@ -23,9 +24,7 @@ class SurveyMeasurement(BaseModel):
     h2: Optional[float] = Field(alias="H2")
     special_case: Optional[str] = Field(alias="Special Case")
     quick_description: Optional[str] = Field(alias="Quick Description")
-    curb_length: Optional[float] = Field(alias="Curb Length")
     surveyor: str = Field(alias="Creator")
-    survey_address: Optional[str] = Field(alias="Survey Address")
     note: Optional[str] = Field(alias="Notes")
     measured_at: datetime = Field(alias="CreationDate")
 
@@ -40,7 +39,7 @@ class SurveyMeasurement(BaseModel):
     @validator("measured_at", pre=True)
     @classmethod
     def validate_measured_at(cls, v):
-        measured_at = datetime.strptime(v, "%m/%d/%Y %H:%M")
+        measured_at = parse_dt(v)
         measured_at = measured_at.replace(tzinfo=timezone.utc)
         return measured_at
 
@@ -68,9 +67,9 @@ class SurveyMeasurement(BaseModel):
 
         return None
 
-    @staticmethod
-    def from_csv(file_obj):
-        """Return a list of SurveyMeasurements parsed from a CSV file"""
+    @classmethod
+    def from_csv(cls, file_obj):
+        """Return a list of measurements parsed from a CSV file"""
         measurements = []
 
         for data in csv.DictReader(file_obj):
@@ -78,7 +77,7 @@ class SurveyMeasurement(BaseModel):
                 if value.strip() == "":
                     data[key] = None
 
-            measurement = SurveyMeasurement.parse_obj(data)
+            measurement = cls.parse_obj(data)
             measurements.append(measurement)
 
         return measurements
@@ -86,3 +85,19 @@ class SurveyMeasurement(BaseModel):
     def model_dump(self, **kwargs):
         kwargs["exclude"] = kwargs.get("exclude", {"x", "y"})
         return super().model_dump(**kwargs)
+
+
+class SurveyMeasurement(BaseMeasurement):
+    """Measurement record from a survey CSV"""
+
+    curb_length: Optional[float] = Field(alias="Curb Length")
+    survey_address: Optional[str] = Field(alias="Survey Address")
+
+
+class ProductionMeasurement(BaseMeasurement):
+    """Measurement record from a production CSV"""
+
+    h1: float = Field(alias="H1")
+    inch_feet: float = Field(alias="Inch Feet")
+    linear_feet: Optional[float] = Field(alias="Linear Feet")
+    slope: Optional[str] = Field(alias="Slope")

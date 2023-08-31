@@ -1,8 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from pss.models import Customer, Contact, Territory
-
+from pss.models import Contact, Customer, Territory
 
 User = get_user_model()
 

@@ -1,8 +1,8 @@
 from django.contrib.gis.db.models.fields import PointField
 from django.db import models
 
+from repairs.models.constants import QuickDescription, SpecialCase
 from repairs.models.projects import Project
-from repairs.models.constants import SpecialCase, QuickDescription
 
 
 class Measurement(models.Model):

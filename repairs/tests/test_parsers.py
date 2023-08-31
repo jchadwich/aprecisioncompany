@@ -1,6 +1,6 @@
 import unittest
 
-from repairs.parsers import SurveyMeasurement
+from repairs.parsers import ProductionMeasurement, SurveyMeasurement
 
 
 class TestMeasurementParsers(unittest.TestCase):
@@ -14,3 +14,12 @@ class TestMeasurementParsers(unittest.TestCase):
         with open(filename, "r", encoding="utf-8-sig") as f:
             measurements = SurveyMeasurement.from_csv(f)
             self.assertEqual(len(measurements), 165)
+
+    def test_parse_production_measurements_csv(self):
+        """Test parsing a production measurements CSV file"""
+
+        filename = "repairs/tests/fixtures/production_template.csv"
+
+        with open(filename, "r", encoding="utf-8-sig") as f:
+            measurements = ProductionMeasurement.from_csv(f)
+            self.assertEqual(len(measurements), 59)
