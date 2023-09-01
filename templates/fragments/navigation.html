@@ -53,19 +53,5 @@
     <div class="nav-item-label">
       Logout
     </div>
-  </div>
+  </a>
 </nav>
-
-<script type="text/javascript">
-  $(document).ready(() => {
-    const { origin, pathname } = window.location;
-
-    $(`nav a[class="nav-item"]`).map((_, link) => {
-      const path = $(link).prop("href").replace(origin, "")
-
-      if (path === pathname) {
-        $(link).addClass("active");
-      }
-    })
-  })
-</script>

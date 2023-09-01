@@ -28,9 +28,25 @@
     {% endblock %}
 
     <main class="nav-drawer">
-    {% block content %}
-    {% endblock %}
+      <div class="mx-16 my-16">
+      {% block content %}{% endblock %}
+      </div>
     </main>
   {% endblock %}
+
+    <!-- Set the active navigation link -->
+    <script type="text/javascript">
+      $(document).ready(() => {
+        const { origin, pathname } = window.location;
+
+        $(`nav a[class="nav-item"]`).map((_, link) => {
+          const path = $(link).prop("href").replace(origin, "")
+
+          if (path === pathname) {
+            $(link).addClass("active");
+          }
+        })
+      })
+    </script>
   </body>
 </html>

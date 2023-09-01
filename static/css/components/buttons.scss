@@ -27,7 +27,7 @@
     @include stateLayers($primary);
 
     background-color: $primary;
-    color: $on-primary;
+    color: $on-primary !important;
 
     &:hover {
       @extend .elevation-1;
@@ -39,7 +39,7 @@
     @include stateLayers($on-secondary-container);
 
     background-color: $secondary-container;
-    color: $on-secondary-container;
+    color: $on-secondary-container !important;
   }
 
   &--text {
@@ -48,7 +48,7 @@
     @include disabledStateLayer($on-surface, true);
 
     background-color: transparent;
-    color: $primary;
+    color: $primary !important;
   }
 
   &--icon {

@@ -54,6 +54,10 @@
   margin-top: $spacing * 24;
 }
 
+.mt-32 {
+  margin-top: $spacing * 32;
+}
+
 .mt-48 {
   margin-top: $spacing * 48;
 }
@@ -105,6 +109,10 @@
 
 .mb-24 {
   margin-bottom: $spacing * 24;
+}
+
+.mb-32 {
+  margin-bottom: $spacing * 32;
 }
 
 .mb-48 {
@@ -160,6 +168,10 @@
   margin-left: $spacing * 24;
 }
 
+.ml-32 {
+  margin-left: $spacing * 32;
+}
+
 .ml-48 {
   margin-left: $spacing * 48;
 }
@@ -211,6 +223,10 @@
 
 .mr-24 {
   margin-right: $spacing * 24;
+}
+
+.mr-32 {
+  margin-right: $spacing * 32;
 }
 
 .mr-48 {
@@ -276,6 +292,11 @@
 .my-24 {
   @extend .mt-24;
   @extend .mb-24;
+}
+
+.my-32 {
+  @extend .mt-32;
+  @extend .mb-32;
 }
 
 .my-48 {
@@ -344,6 +365,11 @@
   @extend .mr-24;
 }
 
+.mx-32 {
+  @extend .ml-32;
+  @extend .mr-32;
+}
+
 .mx-48 {
   @extend .ml-48;
   @extend .mr-48;
@@ -408,6 +434,11 @@
 .m-24 {
   @extend .mx-24;
   @extend .my-24;
+}
+
+.m-32 {
+  @extend .mx-32;
+  @extend .my-32;
 }
 
 .m-48 {
