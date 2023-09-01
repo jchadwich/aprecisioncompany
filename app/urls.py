@@ -4,7 +4,6 @@ from django.urls import include, path
 
 from app.views import status
 
-
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("auth/login/", LoginView.as_view(), name="login"),

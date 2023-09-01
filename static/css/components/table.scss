@@ -1,0 +1,36 @@
+@import "../theme/typography.scss";
+@import "../theme/states.scss";
+@import "../theme/colors.scss";
+
+.table {
+  @extend .text--body-lg;
+
+  width: 100%;
+  text-align: left;
+  border-collapse: separate;
+  border-spacing: 0px;
+  border: 1px solid rgba($outline, 0.24);
+  border-radius: 4px;
+
+  th, td {
+    padding: 12px;
+  }
+
+  td {
+    border-top: 1px solid rgba($outline, 0.24);
+  }
+
+  tbody tr {
+    &:hover {
+      background-color: rgba($scrim, $hoverOpacity / 100%);
+    }
+  }
+
+  td a {
+    color: $primary;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

@@ -1,12 +1,44 @@
 from django.db import models
 
+from lib.models.constants import States
+
 
 class Customer(models.Model):
     """External client or municipality"""
 
     name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    state = models.CharField(
+        max_length=2, blank=True, null=True, choices=States.choices
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def short_address(self):
+        """Return the city, state address"""
+        if self.city and self.state:
+            return f"{self.city}, {self.state}"
+        return None
+
+    @property
+    def active_projects(self):
+        """Return the Projects currently in progress"""
+        from repairs.models.projects import Project
+
+        return self.projects.filter(status=Project.Status.STARTED).order_by(
+            "created_at"
+        )
+
+    @property
+    def completed_projects(self):
+        """Return the Projects that have been completed"""
+        from repairs.models.projects import Project
+
+        return self.projects.filter(status=Project.Status.COMPLETE).order_by(
+            "created_at"
+        )
 
 
 class Contact(models.Model):

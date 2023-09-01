@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import DetailView, ListView
 
 from repairs.models import Project
 
