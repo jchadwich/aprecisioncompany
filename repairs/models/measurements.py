@@ -37,9 +37,7 @@ class Measurement(models.Model):
     slope = models.CharField(max_length=10, blank=True, null=True)
     curb_length = models.FloatField(blank=True, null=True)
     survey_address = models.CharField(max_length=255, blank=True, null=True)
-    surveyor = models.CharField(
-        max_length=100, blank=True, null=True
-    )  # TODO: make required
+    surveyor = models.CharField(max_length=100)
     note = models.TextField(blank=True, null=True)
     geocoded_address = models.CharField(max_length=255, blank=True, null=True)
     measured_at = models.DateTimeField()
@@ -47,7 +45,6 @@ class Measurement(models.Model):
 
     def get_geocoded_address(self):
         """Return the reverse geocoded address from the coordinate"""
-        # FIXME: process asynchronousy
 
         client = googlemaps.Client(key=settings.GOOGLE_API_KEY)
         addresses = client.reverse_geocode((self.coordinate.y, self.coordinate.x))
