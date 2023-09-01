@@ -8,6 +8,10 @@
       <link rel="stylesheet" type="text/x-scss" href="{% static 'css/styles.scss' %}" media="screen">
     {% endcompress %}
 
+    <!-- Mapbox GL -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+
     <!-- Google Fonts (Material Icons) -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
 
@@ -16,6 +20,7 @@
 
     <!-- JS helpers -->
     <script src="{% static 'js/navigation.js' %}"></script>
+    <script src="{% static 'js/maps.js' %}"></script>
 
     {% block head %}
     {% endblock %}
