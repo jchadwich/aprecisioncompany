@@ -1,17 +1,81 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>{{ customer.name }}</h2>
-
-<div class="mt-8">
-  <h5>Active Projects (0)</h5>
+<div class="flex align-items-center justify-content-between">
+  <h2>{{ customer.name }}</h2>
+  <a class="btn--filled" href="{% url 'customer-update' pk=customer.pk %}">
+    Edit
+  </a>
 </div>
 
-<div class="mt-8">
-  <h5>Completed Projects (0)</h5>
+<div class="mt-16">
+  <h5>Active Projects</h5>
+
+  <div class="mt-4">
+    <table class="table mt-2">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>BD</th>
+          <th>BDA</th>
+          <th>Territory</th>
+          <th>Primary Contact</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% if not customer.active_projects.exists %}
+        <tr>
+          <td colspan="100%" align="center">No active projects</td>
+        </tr>
+      {% endif %}
+      {% for project in customer.active_projects %}
+        <tr>
+          <td>
+            <a href="{% url 'project-detail' pk=project.pk %}">
+              {{ project.name }}
+            </a>
+          </td>
+          <td>{{ project.business_development_manager.full_name }}</td>
+          <td>{{ project.business_development_assistant.full_name|default:"---" }}</td>
+          <td>{{ project.territory.label }}</td>
+          <td>{{ project.primary_contact.name|default:"---" }}</td>
+          <td>{{ project.created_at|date:"n/j/Y" }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<div class="mt-8">
+<div class="mt-16">
+  <h5>Completed Projects</h5>
+  
+  <div class="mt-4">
+    <table class="table mt-2">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>BD</th>
+          <th>BDA</th>
+          <th>Territory</th>
+          <th>Primary Contact</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% if not customer.completed_projects.exists %}
+        <tr>
+          <td colspan="100%" align="center">No completed projects</td>
+        </tr>
+      {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="mt-16">
   <h5>Contacts</h5>
 </div>
 {% endblock %}

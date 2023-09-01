@@ -28,8 +28,8 @@
           </a>
         </td>
         <td>{{ customer.short_address|default:"" }}</td>
-        <td>0</td>
-        <td>0</td>
+        <td>{{ customer.active_projects.count }}</td>
+        <td>{{ customer.completed_projects.count }}</td>
         <td>{{ customer.created_at|date:"n/j/Y" }}</td>
       </tr>
     {% endfor %}

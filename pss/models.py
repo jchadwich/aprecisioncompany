@@ -22,6 +22,24 @@ class Customer(models.Model):
             return f"{self.city}, {self.state}"
         return None
 
+    @property
+    def active_projects(self):
+        """Return the Projects currently in progress"""
+        from repairs.models.projects import Project
+
+        return self.projects.filter(status=Project.Status.STARTED).order_by(
+            "created_at"
+        )
+
+    @property
+    def completed_projects(self):
+        """Return the Projects that have been completed"""
+        from repairs.models.projects import Project
+
+        return self.projects.filter(status=Project.Status.COMPLETE).order_by(
+            "created_at"
+        )
+
 
 class Contact(models.Model):
     """Contact information for an external person"""

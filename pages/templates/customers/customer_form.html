@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>New customer</h2>
+<h2>
+  {% if customer %}Edit {{ customer.name }}{% else %}New customer{% endif %}
+</h2>
 
 <div class="mt-8 w-128">
   <form method="POST">
@@ -28,7 +30,9 @@
     </div>
 
     <div class="mt-4">
-      <button class="btn--filled" type="submit">Create</button>
+      <button class="btn--filled" type="submit">
+        {% if customer %}Save{% else %}Create{% endif %}
+      </button>
     </div>
   </form>
 </div>
