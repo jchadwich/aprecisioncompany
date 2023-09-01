@@ -35,7 +35,8 @@
     </div>
   </a>
 
-  <a class="nav-item" href="#">
+  {% if user.is_staff %}
+  <a class="nav-item" href="/admin/">
     <div class="nav-item-icon">
       <span class="icon">admin_panel_settings</span>
     </div>
@@ -43,6 +44,7 @@
       Admin
     </div>
   </a>
+  {% endif %}
 
   <a class="nav-item--end" href="{% url 'logout' %}">
     <div class="nav-item-icon">
