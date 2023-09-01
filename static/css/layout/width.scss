@@ -1,5 +1,11 @@
+@import "../theme/variables.scss";
+
 .w-screen {
   width: 100vw;
+}
+
+.w-128 {
+  width: $spacing * 128;
 }
 
 .w-100p {

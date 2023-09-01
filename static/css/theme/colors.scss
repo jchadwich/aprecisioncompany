@@ -1,33 +1,59 @@
+/* Primary */
 $primary: #006a67;
 $on-primary: #ffffff;
 $primary-container: #70f7f1;
 $on-primary-container: #00201f;
+
+/* Secondary */
 $secondary: #4a6361;
 $on-secondary: #ffffff;
 $secondary-container: #cce8e6;
 $on-secondary-container: #051f1e;
+
+/* Tertiary */
 $tertiary: #49607b;
 $on-tertiary: #ffffff;
 $tertiary-container: #d1e4ff;
 $on-tertiary-container: #021d35;
+
+/* Error */
 $error: #ba1a1a;
 $error-container: #ffdad6;
 $on-error: #ffffff;
 $on-error-container: #410002;
+
+/* Background */
 $background: #fafdfb;
 $on-background: #191c1c;
+
+/* Surface */
 $surface: #fafdfb;
 $on-surface: #191c1c;
 $surface-variant: #dae5e3;
 $on-surface-variant: #3f4948;
-$outline: #6f7978;
+
+// TODO: add colors
+//$surface-dim: #DED8E1;
+//$surface-bright: #FEF7FF;
+//$surface-container-lowest: #FFFFFF;
+//$surface-container-low: #F7F2FA;
+//$surface-container: #F3EDF7;
+//$surface-container-high: #ECE6F0;
+//$surface-container-highest: #E6E0E9;
+
+/* Inverse */
 $inverse-on-surface: #eff1f0;
 $inverse-surface: #2d3131;
 $inverse-primary: #4edad5;
+
+/* Effects */
 $shadow: #000000;
 $surface-tint: #006a67;
+$outline: #6f7978;
 $outline-variant: #bec9c7;
 $scrim: #000000;
+
+/* Reference palette - Primary */
 $ref-primary0: #000000;
 $ref-primary10: #00201f;
 $ref-primary20: #003735;
@@ -41,6 +67,8 @@ $ref-primary90: #70f7f1;
 $ref-primary95: #affffa;
 $ref-primary99: #f2fffd;
 $ref-primary100: #ffffff;
+
+/* Reference palette - Secondary */
 $ref-secondary0: #000000;
 $ref-secondary10: #051f1e;
 $ref-secondary20: #1b3533;
@@ -54,6 +82,8 @@ $ref-secondary90: #cce8e6;
 $ref-secondary95: #daf6f4;
 $ref-secondary99: #f2fffd;
 $ref-secondary100: #ffffff;
+
+/* Reference palette - Tertiary */
 $ref-tertiary0: #000000;
 $ref-tertiary10: #021d35;
 $ref-tertiary20: #1a324b;
@@ -67,6 +97,8 @@ $ref-tertiary90: #d1e4ff;
 $ref-tertiary95: #e9f1ff;
 $ref-tertiary99: #fdfcff;
 $ref-tertiary100: #ffffff;
+
+/* Reference palette - Neutral */
 $ref-neutral0: #000000;
 $ref-neutral10: #191c1c;
 $ref-neutral20: #2d3131;
@@ -80,6 +112,8 @@ $ref-neutral90: #e0e3e2;
 $ref-neutral95: #eff1f0;
 $ref-neutral99: #fafdfb;
 $ref-neutral100: #ffffff;
+
+/* Reference palette - Neutral variant */
 $ref-neutral-variant0: #000000;
 $ref-neutral-variant10: #141d1d;
 $ref-neutral-variant20: #293231;
@@ -93,6 +127,8 @@ $ref-neutral-variant90: #dae5e3;
 $ref-neutral-variant95: #e8f3f1;
 $ref-neutral-variant99: #f4fefd;
 $ref-neutral-variant100: #ffffff;
+
+/* Reference palette - Error */
 $ref-error0: #000000;
 $ref-error10: #410002;
 $ref-error20: #690005;
