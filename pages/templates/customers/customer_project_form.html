@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>
+  New project for {{ customer.name }}
+</h2>
+
+<div class="mt-16 w-128">
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="text-field--filled">
+      <label for="{{ form.name.id_for_label }}">Name</label>
+      {{ form.name }} 
+    </div>
+    
+    <div class="text-field--filled mt-4">
+      <label for="{{ form.description.id_for_label }}">Description</label>
+      {{ form.description }} 
+    </div>
+
+    <div class="text-field--filled mt-4">
+      <label for="{{ form.business_development_manager.id_for_label }}">Business development manager (BD)</label>
+      {{ form.business_development_manager }} 
+    </div>
+    
+    <div class="text-field--filled mt-4">
+      <label for="{{ form.business_development_administrator.id_for_label }}">Business development administrator (BDA)</label>
+      {{ form.business_development_administrator }} 
+    </div>
+
+    <div class="text-field--filled mt-4">
+      <label for="{{ form.territory.id_for_label }}">Territory</label>
+      {{ form.territory }} 
+    </div>
+
+    <div class="mt-4">
+      <button class="btn--filled" type="submit">
+        {% if customer %}Save{% else %}Create{% endif %}
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

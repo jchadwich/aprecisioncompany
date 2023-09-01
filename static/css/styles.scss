@@ -22,6 +22,14 @@ body {
 
 a {
   text-decoration: none;
+  
+  &:not(.btn) {
+    color: $primary !important;
+  }
+
+  &:hover:not(.btn) {
+    text-decoration: underline;
+  }
 
   &:visited:not(.btn) {
     color: inherit;
