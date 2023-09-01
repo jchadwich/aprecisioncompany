@@ -1,3 +1,9 @@
+$hoverOpacity: 8%;
+$focusOpacity: 12%;
+$pressOpacity: 12%;
+$dragOpacity: 16%;
+$disabledOpacity: 12%;
+
 @mixin _stateLayer($layerColor, $layerOpacity) {
   &:after {
     background-color: rgba($layerColor, $layerOpacity / 100%);
@@ -15,15 +21,15 @@
   position: relative;
 
   &:hover:not([disabled]) {
-    @include _stateLayer($layerColor, 8%);
+    @include _stateLayer($layerColor, $hoverOpacity);
   }
 }
 
 @mixin focusStateLayer($layerColor) {
   position: relative;
 
-  &:focus:not([disabled]) {
-    @include _stateLayer($layerColor, 12%);
+  &:focus:not([disabled]), [active]:not([disabled]) {
+    @include _stateLayer($layerColor, $focusOpacity);
   }
 }
 
@@ -31,7 +37,7 @@
   position: relative;
 
   &:active:not([disabled]) {
-    @include _stateLayer($layerColor, 12%);
+    @include _stateLayer($layerColor, $pressOpacity);
   }
 }
 
@@ -39,7 +45,7 @@
   position: relative;
 
   &:target:not([disabled]) {
-    @include _stateLayer($layerColor, 16%);
+    @include _stateLayer($layerColor, $dragOpacity);
   }
 }
 
@@ -48,7 +54,7 @@
 
   &[disabled] {
     @if not $transparent {
-      @include _stateLayer($layerColor, 12%);
+      @include _stateLayer($layerColor, $disabledOpacity);
     }
 
     opacity: 38%;
@@ -75,4 +81,10 @@
   @if $disabled {
     @include disabledStateLayer($layerColor);
   }
+}
+
+@mixin manualStateLayer($layerColor, $layerOpacity) {
+  position: relative;
+
+  @include _stateLayer($layerColor, $layerOpacity);
 }

@@ -8,9 +8,15 @@
 @import "./layout/height.scss";
 @import "./components/app_bar.scss";
 @import "./components/buttons.scss";
+@import "./components/nav_rail.scss";
+@import "./components/icons.scss";
 
 body {
   margin: 0;
+}
+
+a {
+  text-decoration: none;
 }
 
 h1 {

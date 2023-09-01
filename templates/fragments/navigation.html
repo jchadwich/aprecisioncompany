@@ -1,13 +1,69 @@
-<nav class="app-bar">
-  <div class="grid--col-3 w-100p">
-    <div class="flex flex--start">
-      <!-- Add index link -->
+<nav class="nav-rail" id="nav-rail">
+  <a class="nav-item" href="{% url 'index' %}">
+    <div class="nav-item-icon">
+      <span class="icon">leaderboard</span>
     </div>
-    <div class="flex flex--center">
-      <!-- Add links to pages -->
+    <div class="nav-item-label">
+      Dashboard
     </div>
-    <div class="flex flex--end">
-      <a class="btn--filled" href="{% url 'logout' %}">Logout</a>
+  </a>
+
+  <a class="nav-item" href="#">
+    <div class="nav-item-icon">
+      <span class="icon">account_balance</span>
+    </div>
+    <div class="nav-item-label">
+      Customers
+    </div>
+  </a>
+
+  <a class="nav-item" href="#">
+    <div class="nav-item-icon">
+      <span class="icon">straighten</span>
+    </div>
+    <div class="nav-item-label">
+      Projects
+    </div>
+  </a>
+
+  <a class="nav-item" href="#">
+    <div class="nav-item-icon">
+      <span class="icon">map</span>
+    </div>
+    <div class="nav-item-label">
+      Map
+    </div>
+  </a>
+
+  <a class="nav-item" href="#">
+    <div class="nav-item-icon">
+      <span class="icon">admin_panel_settings</span>
+    </div>
+    <div class="nav-item-label">
+      Admin
+    </div>
+  </a>
+
+  <a class="nav-item--end" href="{% url 'logout' %}">
+    <div class="nav-item-icon">
+      <span class="icon">logout</span>
+    </div>
+    <div class="nav-item-label">
+      Logout
     </div>
   </div>
 </nav>
+
+<script type="text/javascript">
+  $(document).ready(() => {
+    const { origin, pathname } = window.location;
+
+    $(`nav a[class="nav-item"]`).map((_, link) => {
+      const path = $(link).prop("href").replace(origin, "")
+
+      if (path === pathname) {
+        $(link).addClass("active");
+      }
+    })
+  })
+</script>

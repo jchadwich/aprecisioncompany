@@ -8,17 +8,29 @@
       <link rel="stylesheet" type="text/x-scss" href="{% static 'css/styles.scss' %}" media="screen">
     {% endcompress %}
 
+    <!-- Google Fonts (Material Icons) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
     {% block head %}
-      <title>Precision Safe Sidewalks</title>
     {% endblock %}
+    
+    <title>
+    {% block title %}Precision Safe Sidewalks{% endblock %}
+    </title>
   </head>
   <body>
   {% block body %}
     {% block nav %}
       {% include "fragments/navigation.html" %}
     {% endblock %}
+
+    <main class="nav-drawer">
     {% block content %}
     {% endblock %}
+    </main>
   {% endblock %}
   </body>
 </html>
