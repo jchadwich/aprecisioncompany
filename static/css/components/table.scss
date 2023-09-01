@@ -25,4 +25,12 @@
       background-color: rgba($scrim, $hoverOpacity / 100%);
     }
   }
+
+  td a {
+    color: $primary;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

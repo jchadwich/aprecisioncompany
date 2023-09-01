@@ -5,10 +5,14 @@ from django.views.generic.edit import CreateView, UpdateView
 from pss.models import Customer
 
 
+# TODO: handle pagination
 class CustomerListView(ListView):
     model = Customer
     template_name = "customers/customer_list.html"
     context_object_name = "customers"
+
+    def get_queryset(self):
+        return Customer.objects.order_by("created_at")
 
 
 class CustomerDetailView(DetailView):

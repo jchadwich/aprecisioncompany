@@ -8,17 +8,14 @@
   </a>
 </div>
 
-<div class="my-8">
-</div>
-
-<div class="mt-8">
-  <table class="table">
+<div class="mt-12">
+  <table class="table mt-4">
     <thead>
       <tr>
         <th>Customer Name</th>
         <th>Active Projects</th>
         <th>Completed Projects</th>
-        <th>Created At</th>
+        <th>Created</th>
       </tr>
     </thead>
     <tbody>
@@ -31,7 +28,7 @@
         </td>
         <td>0</td>
         <td>0</td>
-        <td>{{ customer.created_at }}</td>
+        <td>{{ customer.created_at|date:"n/j/Y" }}</td>
       </tr>
     {% endfor %}
     </tbody>
