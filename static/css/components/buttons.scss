@@ -1,6 +1,5 @@
-@use "sass:color" as color;
-
 @import "../theme/colors.scss";
+@import "../theme/states.scss";
 @import "../theme/typography.scss";
 
 
@@ -12,8 +11,9 @@
   border-radius: 0px;
   border-style: solid;
   border-width: 0;
+  cursor: pointer;
   display: flex;
-  height: 40px;
+  height: 38px;
   justify-content: center;
   padding-left: 24px;
   padding-right: 24px;
@@ -23,13 +23,36 @@
 
   &--filled {
     @extend .btn;
+    @include stateLayers($primary);
 
     background-color: $primary;
     color: $on-primary;
+  }
 
-    &:hover {
-      background-color: darken($primary, 8%);
-    }
+  &--tonal {
+    @extend .btn;
+    @include stateLayers($on-secondary-container);
+
+    background-color: $secondary-container;
+    color: $on-secondary-container;
+  }
+
+  &--text {
+    @extend .btn;
+    @include stateLayers($primary, $disabled: false)
+    @include disabledStateLayer($on-surface, true);
+
+    background-color: transparent;
+    color: $primary;
+  }
+
+  &--icon {
+    @extend .btn;
+    @include stateLayers($primary);
+
+    height: 40px;
+    width: 40px;
+    padding: 0;
   }
 
   &--microsoft {
