@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     "compressor",
     "microsoft_auth",
     "accounts",
+    "pss",
+    "repairs",
 ]
 
 
@@ -94,3 +96,6 @@ COMPRESS_PRECOMPILERS = [
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Google API key
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
