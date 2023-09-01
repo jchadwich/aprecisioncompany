@@ -1,6 +1,7 @@
 @import "../theme/colors.scss";
 @import "../theme/states.scss";
 @import "../theme/typography.scss";
+@import "../theme/elevation.scss";
 
 
 .btn {
@@ -27,6 +28,10 @@
 
     background-color: $primary;
     color: $on-primary;
+
+    &:hover {
+      @extend .elevation-1;
+    }
   }
 
   &--tonal {
