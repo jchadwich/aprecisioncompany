@@ -7,28 +7,34 @@ from openpyxl import load_workbook
 from datetime import datetime
 import geopy
 from folium.plugins import FloatImage
-from geopy.geocoders import Nominatim, ArcGIS, GoogleV3 # Geocoder APIs
+from geopy.geocoders import Nominatim, ArcGIS, GoogleV3  # Geocoder APIs
 import psycopg2
 
 # data from db
 conn = psycopg2.connect(
-    database="aprecisioncompanydb",user="postgres",password="infrastructure",host="127.0.0.1",port="5432"
+    database="aprecisioncompanydb",
+    user="postgres",
+    password="infrastructure",
+    host="127.0.0.1",
+    port="5432",
 )
-conn.autocommit=True
-cursor=conn.cursor()
+conn.autocommit = True
+cursor = conn.cursor()
 
 # Create sorted list of id values to get most recent id for cursor.execute
-cursor.execute('''SELECT id from docgen_docgen''')
+cursor.execute("""SELECT id from docgen_docgen""")
 i = cursor.fetchall()
-n=0 # Index variable
+n = 0  # Index variable
 idList = []
 for item in i:
     # Pull int values from lists
     idList.append(i[n][0])
     n += 1
 
-cursor.execute(f'''SELECT * from docgen_docgen WHERE id = {idList[-1]}''') # Most recent entry only
-result=cursor.fetchone()
+cursor.execute(
+    f"""SELECT * from docgen_docgen WHERE id = {idList[-1]}"""
+)  # Most recent entry only
+result = cursor.fetchone()
 csvFile = result[7]
 
 today = datetime.now()
@@ -37,17 +43,17 @@ today = datetime.now()
 try:
     userInFile = result[7]
 except:
-    userInFile = 'Delta_Ridge_Townhomes_139926-21Apr2022.csv'
+    userInFile = "Delta_Ridge_Townhomes_139926-21Apr2022.csv"
 
 userInFile = pd.read_csv(userInFile)
 
-oidList = userInFile['No.'].values.tolist()
-lenList = userInFile['Length'].values.tolist()
-widList = userInFile['Width'].values.tolist()
-scList = userInFile['Special Case'].values.tolist()
-qdList = userInFile['Quick Description'].values.tolist()
-xList = userInFile['x'].values.tolist()
-yList = userInFile['y'].values.tolist()
+oidList = userInFile["No."].values.tolist()
+lenList = userInFile["Length"].values.tolist()
+widList = userInFile["Width"].values.tolist()
+scList = userInFile["Special Case"].values.tolist()
+qdList = userInFile["Quick Description"].values.tolist()
+xList = userInFile["x"].values.tolist()
+yList = userInFile["y"].values.tolist()
 
 try:
     saveFile = ""  # result[]
@@ -142,7 +148,7 @@ try:
 except:
     curbPrice = 10
 try:
-    expNumDaysToRepair = ''  # result[]
+    expNumDaysToRepair = ""  # result[]
 except:
     expNumDaysToRepair = 3
 try:
@@ -154,7 +160,7 @@ try:
 except:
     pssMin = "$5,000"
 try:
-    avgPrice = ''  # result[]
+    avgPrice = ""  # result[]
 except:
     avgPrice = 2.50
 try:
@@ -166,7 +172,7 @@ try:
 except:
     dtcHigh = 2
 try:
-    BDEmail = ''  # result[]
+    BDEmail = ""  # result[]
 except:
     BDEmail = "bd@precisionsafesidewalks.com"
 try:
@@ -178,9 +184,86 @@ try:
 except:  # ACCEPTABLE INPUT: "dnr", "repairs", "dnr and repair"
     mapLayers = "dnr and repair"
 
-alphaList = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-                 'AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ',
-                 'BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BW','BX','BY','BZ']
+alphaList = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "AA",
+    "AB",
+    "AC",
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AH",
+    "AI",
+    "AJ",
+    "AK",
+    "AL",
+    "AM",
+    "AN",
+    "AO",
+    "AP",
+    "AQ",
+    "AR",
+    "AS",
+    "AT",
+    "AU",
+    "AV",
+    "AW",
+    "AX",
+    "AY",
+    "AZ",
+    "BA",
+    "BB",
+    "BC",
+    "BD",
+    "BE",
+    "BF",
+    "BG",
+    "BH",
+    "BI",
+    "BJ",
+    "BK",
+    "BL",
+    "BM",
+    "BN",
+    "BO",
+    "BP",
+    "BQ",
+    "BR",
+    "BS",
+    "BT",
+    "BU",
+    "BV",
+    "BW",
+    "BX",
+    "BY",
+    "BZ",
+]
 
 sqftList = []
 costList = []
@@ -204,7 +287,7 @@ uniqueStrNames_lg_count = {}
 uniqueStrNames_curb_count = {}
 uniqueStrNames_dnr_count = {}
 uniqueStrNames_curb_date = {}
-uniqueStrNames_swc_date = {} # date dictionary for s,m,l repairs
+uniqueStrNames_swc_date = {}  # date dictionary for s,m,l repairs
 uniqueStrNames_swc_h1 = {}
 uniqueStrNames_swc_h2 = {}
 uniqueStrNames_swc_sqft = {}
@@ -212,10 +295,10 @@ uniqueStrNames_swc_repairedLF = {}
 uniqueStrNames_swc_repairedInFt = {}
 
 dateList = []
-h1List = [] # Only populate if s,m,l
-h2List = [] # Only populate if s,m,l
-lengthList_swc = [] # Only populate if s,m,l
-widthList_swc = [] # Only populate if s,m,l
+h1List = []  # Only populate if s,m,l
+h2List = []  # Only populate if s,m,l
+lengthList_swc = []  # Only populate if s,m,l
+widthList_swc = []  # Only populate if s,m,l
 
 centerX = 0
 centerY = 0
@@ -224,6 +307,7 @@ centerY = 0
 # Reverse Geocode instantiation
 g = ArcGIS()
 addresses = []
+
 
 def Invoice():
     # Declare variables for later calculation
@@ -252,14 +336,17 @@ def Invoice():
     totalDnrCost = 0  # Total cost if all deficiencies were treated as dnr
     savings = 0
 
-    wasteConcreteLow = 0  # How many tons were saved from going to the landfill? Low number
-    wasteConcreteHigh = 0  # How many tons were saved from going to the landfill? High number
+    wasteConcreteLow = (
+        0  # How many tons were saved from going to the landfill? Low number
+    )
+    wasteConcreteHigh = (
+        0  # How many tons were saved from going to the landfill? High number
+    )
     wastConcreteCF = 0  # How many cubic feet of natural resources were saved?
     gasSaved = 0  # How many gallons of gasoline were saved?
     tonsCO2 = 0  # How many tons of CO2 were saved from being pumped into atmosphere?
 
     for item in qdList:
-
         if item == "Large":
             lgCount += 1
             tripHazardCount += 1
@@ -277,7 +364,7 @@ def Invoice():
     totalCount = curbCount + dnrCount + smCount + mdCount + lgCount
 
     # Calculate sqft and length (for curb)
-    j=0
+    j = 0
     _fullDEFTYPE_ = []
     for item in qdList:
         if item == "Large":
@@ -288,7 +375,7 @@ def Invoice():
             _fullDEFTYPE_.append(item)
         else:
             _fullDEFTYPE_.append(scList[j])
-        j+=1
+        j += 1
     print("full def list")
     print(_fullDEFTYPE_)
 
@@ -301,9 +388,11 @@ def Invoice():
         elif item == "Small":
             smSqft += float(sqftList[k])
         elif item == "Curb":
-            #*******************************
-            curbLength += float(lenList[k]) ## Is the correct field being used here???????? ****************************!!
-            #*******************************
+            # *******************************
+            curbLength += float(
+                lenList[k]
+            )  ## Is the correct field being used here???????? ****************************!!
+            # *******************************
         elif item == "Replace":
             dnrSqft += float(sqftList[k])
         k += 1
@@ -322,15 +411,19 @@ def Invoice():
         elif item == "Replace":
             dnrCost = dnrSqft * dnrPrice
         elif item == "Curb":
-            #********************************
-            curbCost = curbLength * curbPrice ## Is the correct field being used here???????? ****************************!!
-            #********************************
+            # ********************************
+            curbCost = (
+                curbLength * curbPrice
+            )  ## Is the correct field being used here???????? ****************************!!
+            # ********************************
         totalCost = dnrCost + smCost + mdCost + lgCost + curbCost
         totalHazardCost = smCost + mdCost + lgCost + curbCost
 
     # Calculate cost if dnr only was used
     totalDnrCost = ((lgSqft + mdSqft + smSqft + dnrSqft) * dnrPrice) + (45 * curbLength)
-    savings = (((lgSqft + mdSqft + smSqft) * dnrPrice) + (45 * curbLength)) - (smCost + mdCost + lgCost + curbCost)
+    savings = (((lgSqft + mdSqft + smSqft) * dnrPrice) + (45 * curbLength)) - (
+        smCost + mdCost + lgCost + curbCost
+    )
 
     # Calculate Natural Resource Savings
     tcf = totalSqft * 0.33  # total cubic feet
@@ -356,19 +449,19 @@ def Invoice():
     # data = read_csv(userInFile)
     # data = pd.read_csv(data)
     data = userInFile
-    k=0
-    H1 = data['H1'].tolist()
-    H2 = data['H2'].tolist()
-    lengthOfPanel = data['Length'].tolist()
-    while k < len(H1)-1:
+    k = 0
+    H1 = data["H1"].tolist()
+    H2 = data["H2"].tolist()
+    lengthOfPanel = data["Length"].tolist()
+    while k < len(H1) - 1:
         if H1[k] != "":
-            INFT = (((H1[k] + H2[k]) / 16) * (lengthOfPanel[k]))
-            k+=1
+            INFT = ((H1[k] + H2[k]) / 16) * (lengthOfPanel[k])
+            k += 1
             totInFt += INFT
     # Other calculations using Inch Feet
     pssConcRem = (totInFt / 50) * 30
 
-    workbook = load_workbook(filename = "PS Template - Green 7-26-22 MACRO1.xlsx")
+    workbook = load_workbook(filename="PS Template - Green 7-26-22 MACRO1.xlsx")
     sheet = workbook.active
     sheet["Q2"] = today
     sheet["P2"] = BDName
@@ -473,33 +566,41 @@ def Invoice():
         celNum_string = "AI" + str(celNum)
         sheet[celNum_string] = int(value[1])
         celNum += 1
-########################################################################################################################
-# Update date sheets
+    ########################################################################################################################
+    # Update date sheets
     dateList = []
     # Populate lists:
     # no., H1, H2, length, width, length in inches, tech name, sqft/len(if curb), sidewalk or curb, InFt, cost, date,
     # address location (created already but used here) -- address_loc
     # Only populate if non REPLACE
 
-    Buttons = data['Special Case'].tolist() # Change this to reflect AGOL field name ??????????????????????
-    QD = data['Quick Description'].tolist() # Change this to reflect AGOL field name ??????????????????????
+    Buttons = data[
+        "Special Case"
+    ].tolist()  # Change this to reflect AGOL field name ??????????????????????
+    QD = data[
+        "Quick Description"
+    ].tolist()  # Change this to reflect AGOL field name ??????????????????????
 
-    lengt = data['Length'].tolist()
-    width = data['Width'].tolist()
+    lengt = data["Length"].tolist()
+    width = data["Width"].tolist()
     sqft = []
     i = 0
     for item in lengt:
         sqft.append(float(item) * float(width[i]))
         i += 1
-    h1 = data['H1'].tolist()
-    h2 = data['H2'].tolist()
-    #oid = data['OBJECTID'].tolist() # If necessary, change unique identifier field name to "OBJECTID"S
-    oid = data['No.'].tolist()  # If necessary, change unique identifier field name to "OBJECTID"S
-    date = data['Date'].tolist() # Change formatting of cells to include date only, not time
+    h1 = data["H1"].tolist()
+    h2 = data["H2"].tolist()
+    # oid = data['OBJECTID'].tolist() # If necessary, change unique identifier field name to "OBJECTID"S
+    oid = data[
+        "No."
+    ].tolist()  # If necessary, change unique identifier field name to "OBJECTID"S
+    date = data[
+        "Date"
+    ].tolist()  # Change formatting of cells to include date only, not time
     len_in_inches = []
     for item in lengt:
         len_in_inches.append(int(item) * 12)
-    #tech_name = data['Creator'].tolist()
+    # tech_name = data['Creator'].tolist()
     # Temp for testing, change back to creator at rollout
     tech_name = "RR"
     inft = []
@@ -510,7 +611,6 @@ def Invoice():
     sw_c = []
     i = 0
     while i < len(QD):
-
         if QD[i] == "Small":
             sw_c.append(QD[i])
             i += 1
@@ -544,22 +644,22 @@ def Invoice():
         itemList.append(str(item))
     for item in itemList:
         strippedItem = item.strip()
-        ni = strippedItem.split(',')
+        ni = strippedItem.split(",")
         address_loc.append(ni[0])
 
-########################################################################################################################
-# get a list of unique tech names
+    ########################################################################################################################
+    # get a list of unique tech names
     unique_tech_names = []
     for item in tech_name:
         if item not in unique_tech_names:
             unique_tech_names.append((item))
-# get list of unique dates
+    # get list of unique dates
     date_name = []
     for item in date:
         if item not in date_name:
             date_name.append(item)
 
-# Create dictionaries
+    # Create dictionaries
     date_length = {}
     for item in date:
         if item not in date_length:
@@ -582,14 +682,14 @@ def Invoice():
             date_h2[item] = []
     date_techN = {}
     for item in date_name:
-         if item not in date_techN:
-             date_techN[item] = []
+        if item not in date_techN:
+            date_techN[item] = []
     date_address_loc = {}
     for item in date_name:
         if item not in date_address_loc:
             date_address_loc[item] = []
 
-# Fill dictionaries with appropriate values
+    # Fill dictionaries with appropriate values
     i = 0
     for item in date:
         date_length[item].append(lengt[i])
@@ -619,10 +719,7 @@ def Invoice():
         date_address_loc[item].append(address_loc[i])
         i += 1
 
-
-
-
-# Add the above information to the appropriate sheets here
+    # Add the above information to the appropriate sheets here
 
     alphaIndex = 0
     for key in date_length.items():
@@ -638,10 +735,10 @@ def Invoice():
 
         i = 0
         row = 22
-        newList = key[1] # create list outside dictionary
+        newList = key[1]  # create list outside dictionary
         for item in newList:
             cn = "B" + str(row)
-            ws[cn] =int(item)
+            ws[cn] = int(item)
             i += 1
             row += 1
         alphaIndex += 1
@@ -650,7 +747,7 @@ def Invoice():
         ws = workbook[alphaList[alphaIndex].lower()]
         i = 0
         row = 22
-        ws['A1'] = key[0]
+        ws["A1"] = key[0]
         newList = key[1]  # create list outside dictionary
         for item in newList:
             cn = "A" + str(row)
@@ -708,7 +805,8 @@ def Invoice():
             row += 1
         alphaIndex += 1
 
-    workbook.save(filename = inputEntity + "_Invoice.xlsx")
+    workbook.save(filename=inputEntity + "_Invoice.xlsx")
+
 
 m = Map()
 i = Invoice()

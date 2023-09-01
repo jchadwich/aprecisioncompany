@@ -9,13 +9,17 @@ import psycopg2
 
 # data from db
 conn = psycopg2.connect(
-    database="aprecisioncompanydb", user="postgres", password="infrastructure", host="127.0.0.1", port="5432"
+    database="aprecisioncompanydb",
+    user="postgres",
+    password="infrastructure",
+    host="127.0.0.1",
+    port="5432",
 )
 conn.autocommit = True
 cursor = conn.cursor()
 
 # Create sorted list of id values to get most recent id for cursor.execute
-cursor.execute('''SELECT id from docgen_docgen''')
+cursor.execute("""SELECT id from docgen_docgen""")
 i = cursor.fetchall()
 n = 0  # Index variable
 idList = []
@@ -24,20 +28,22 @@ for item in i:
     idList.append(i[n][0])
     n += 1
 print(idList[-1])
-cursor.execute(f'''SELECT * from docgen_docgen WHERE id = {idList[-1]}''')  # Most recent entry only
+cursor.execute(
+    f"""SELECT * from docgen_docgen WHERE id = {idList[-1]}"""
+)  # Most recent entry only
 result = cursor.fetchone()
 conn.close()
 rf = result[7]
 
 userInFile = result[7]
 userInFile = pd.read_csv(userInFile)
-oidList = userInFile['No.'].values.tolist()
-lenList = userInFile['Length'].values.tolist()
-widList = userInFile['Width'].values.tolist()
-scList = userInFile['Special Case'].values.tolist()
-qdList = userInFile['Quick Description'].values.tolist()
-xList = userInFile['x'].values.tolist()
-yList = userInFile['y'].values.tolist()
+oidList = userInFile["No."].values.tolist()
+lenList = userInFile["Length"].values.tolist()
+widList = userInFile["Width"].values.tolist()
+scList = userInFile["Special Case"].values.tolist()
+qdList = userInFile["Quick Description"].values.tolist()
+xList = userInFile["x"].values.tolist()
+yList = userInFile["y"].values.tolist()
 
 try:
     workOrderLoc = result[34]
@@ -104,23 +110,25 @@ print(centerX, centerY)
 def Map():
     coord = [centerX, centerY]
     # tiles = Stamen Toner, Stamen Terrain, Stamen Watercolor, OpenStreetMap (default)
-    m = folium.Map(coord, zoom_start=15, tiles='OpenStreetMap', overlay=True, control=True)
+    m = folium.Map(
+        coord, zoom_start=15, tiles="OpenStreetMap", overlay=True, control=True
+    )
 
     tile = folium.TileLayer(
-        tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         opacity=0.9,
-        attr='Esri',
-        name='Esri Satellite',
+        attr="Esri",
+        name="Esri Satellite",
         overlay=True,
-        control=True
+        control=True,
     ).add_to(m)
 
     tileRef = folium.TileLayer(
-        tiles='https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{y}/{x}',
-        attr='Esri',
-        name='Esri Vector Tile Layer',
+        tiles="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{y}/{x}",
+        attr="Esri",
+        name="Esri Vector Tile Layer",
         overlay=True,
-        control=True
+        control=True,
     ).add_to(m)
 
     marker = []
@@ -132,11 +140,10 @@ def Map():
     deficiencyType = []
     sqft_or_curbLength = []
 
-    print('stop here')
+    print("stop here")
 
     i = 0
     while i < len(xList) - 1:
-
         # for item in xList:
         # if i > 1:
 
@@ -167,8 +174,9 @@ def Map():
                 overallType.append("SpecialCond")
             j += 1
 
-        if scList[i] != "" and scList[i] != " ":  # change "special condition" entries to square (dnr) or circles
-
+        if (
+            scList[i] != "" and scList[i] != " "
+        ):  # change "special condition" entries to square (dnr) or circles
             if scList[i] == "Curb":
                 hazardType = "purple"
             elif scList[i] == "GutterPan":
@@ -217,10 +225,10 @@ def Map():
         itemList.append(str(item))
     for item in itemList:
         strippedItem = item.strip()
-        ni = strippedItem.split(',')
+        ni = strippedItem.split(",")
         newLineList.append(ni[0])
     for item in newLineList:
-        res = ''.join([i for i in item if not i.isdigit()])
+        res = "".join([i for i in item if not i.isdigit()])
         nLL.append(res[1:])
 
     # Create dictionaries with unique road names for count, sqft, cost for all deficiency types
@@ -315,7 +323,14 @@ def Map():
                 costList.append(0)
                 print("entry is not equal to sml, med, lg, dnr, or curb")
                 tempNum += 1
-    print(len(lenList), len(widList), len(qdList), len(scList), len(sqftList), len(costList))
+    print(
+        len(lenList),
+        len(widList),
+        len(qdList),
+        len(scList),
+        len(sqftList),
+        len(costList),
+    )
 
     # small sqft
     n = -1
@@ -402,9 +417,12 @@ def Map():
     # print(img1, img2)
     if workOrderLoc.lower() == "yes":
         while i < len(marker) - 1:
-            folium.Marker([float(marker[i]), float(marker[i + 1])],
-                          icon=folium.features.CustomIcon('https://jcleftwi.github.io/GIS715/pin.png',
-                                                          icon_size=(15, 16))).add_to(m)
+            folium.Marker(
+                [float(marker[i]), float(marker[i + 1])],
+                icon=folium.features.CustomIcon(
+                    "https://jcleftwi.github.io/GIS715/pin.png", icon_size=(15, 16)
+                ),
+            ).add_to(m)
             # print(marker[i], marker[i + 1])
             i += 2
             j += 1
@@ -413,60 +431,182 @@ def Map():
             if "dnr" in mapLayers.lower() and "repair" in mapLayers.lower():
                 if overallType[j] == "NormalRepair":  # Normal hazard
                     if hT[j] == "yellow":
-                        icon_path = r'https://jcleftwi.github.io/GIS715/yellowPin.png'
-                        icon = folium.features.CustomIcon(icon_image=icon_path, icon_size=(15, 16))
-                        folium.Marker([float(marker[i]), float(marker[i + 1])], popup=(
-                            (id[j]), ("<div style=width:300px ><img src=" + "'" + img1[j] + "'" + "width=125px></div>"),
-                            ("<div style=width:300px ><img src=" + "'" + img2[j] + "'" + "width=125px></div>"),
-                            (addresses[j])),
-                                      icon=icon).add_to(m)
+                        icon_path = r"https://jcleftwi.github.io/GIS715/yellowPin.png"
+                        icon = folium.features.CustomIcon(
+                            icon_image=icon_path, icon_size=(15, 16)
+                        )
+                        folium.Marker(
+                            [float(marker[i]), float(marker[i + 1])],
+                            popup=(
+                                (id[j]),
+                                (
+                                    "<div style=width:300px ><img src="
+                                    + "'"
+                                    + img1[j]
+                                    + "'"
+                                    + "width=125px></div>"
+                                ),
+                                (
+                                    "<div style=width:300px ><img src="
+                                    + "'"
+                                    + img2[j]
+                                    + "'"
+                                    + "width=125px></div>"
+                                ),
+                                (addresses[j]),
+                            ),
+                            icon=icon,
+                        ).add_to(m)
                         # print(marker[i], marker[i + 1])
                         i += 2
                         j += 1
                     elif hT[j] == "darkblue":
-                        icon_path = r'https://jcleftwi.github.io/GIS715/bluePin.png'
-                        icon = folium.features.CustomIcon(icon_image=icon_path, icon_size=(15, 16))
-                        folium.Marker([float(marker[i]), float(marker[i + 1])], popup=(
-                            (id[j]), ("<div style=width:300px ><img src=" + "'" + img1[j] + "'" + "width=125px></div>"),
-                            ("<div style=width:300px ><img src=" + "'" + img2[j] + "'" + "width=125px></div>"),
-                            (addresses[j])),
-                                      icon=icon).add_to(m)
+                        icon_path = r"https://jcleftwi.github.io/GIS715/bluePin.png"
+                        icon = folium.features.CustomIcon(
+                            icon_image=icon_path, icon_size=(15, 16)
+                        )
+                        folium.Marker(
+                            [float(marker[i]), float(marker[i + 1])],
+                            popup=(
+                                (id[j]),
+                                (
+                                    "<div style=width:300px ><img src="
+                                    + "'"
+                                    + img1[j]
+                                    + "'"
+                                    + "width=125px></div>"
+                                ),
+                                (
+                                    "<div style=width:300px ><img src="
+                                    + "'"
+                                    + img2[j]
+                                    + "'"
+                                    + "width=125px></div>"
+                                ),
+                                (addresses[j]),
+                            ),
+                            icon=icon,
+                        ).add_to(m)
                         # print(marker[i], marker[i + 1])
                         i += 2
                         j += 1
                     else:
-                        icon_path = r'https://jcleftwi.github.io/GIS715/redPin.png'
-                        icon = folium.features.CustomIcon(icon_image=icon_path, icon_size=(15, 16))
-                        folium.Marker([float(marker[i]), float(marker[i + 1])], popup=(
-                            (id[j]), ("<div style=width:300px ><img src=" + "'" + img1[j] + "'" + "width=125px></div>"),
-                            ("<div style=width:300px ><img src=" + "'" + img2[j] + "'" + "width=125px></div>"),
-                            (addresses[j])),
-                                      icon=icon).add_to(m)
+                        icon_path = r"https://jcleftwi.github.io/GIS715/redPin.png"
+                        icon = folium.features.CustomIcon(
+                            icon_image=icon_path, icon_size=(15, 16)
+                        )
+                        folium.Marker(
+                            [float(marker[i]), float(marker[i + 1])],
+                            popup=(
+                                (id[j]),
+                                (
+                                    "<div style=width:300px ><img src="
+                                    + "'"
+                                    + img1[j]
+                                    + "'"
+                                    + "width=125px></div>"
+                                ),
+                                (
+                                    "<div style=width:300px ><img src="
+                                    + "'"
+                                    + img2[j]
+                                    + "'"
+                                    + "width=125px></div>"
+                                ),
+                                (addresses[j]),
+                            ),
+                            icon=icon,
+                        ).add_to(m)
                         # print(marker[i], marker[i + 1])
                         i += 2
                         j += 1
                 elif overallType[j] == "Replace":  # square - dnr
-                    folium.RegularPolygonMarker([float(marker[i]), float(marker[i + 1])], radius=6, popup=(
-                    (id[j]), ("<div style=width:300px ><img src=" + "'" + img1[j] + "'" + "width=125px></div>"),
-                    ("<div style=width:300px ><img src=" + "'" + img2[j] + "'" + "width=125px></div>"), (addresses[j])),
-                                                color=hT[j], fill_color=hT[j], icon='', fill_opacity=1).add_to(m)
+                    folium.RegularPolygonMarker(
+                        [float(marker[i]), float(marker[i + 1])],
+                        radius=6,
+                        popup=(
+                            (id[j]),
+                            (
+                                "<div style=width:300px ><img src="
+                                + "'"
+                                + img1[j]
+                                + "'"
+                                + "width=125px></div>"
+                            ),
+                            (
+                                "<div style=width:300px ><img src="
+                                + "'"
+                                + img2[j]
+                                + "'"
+                                + "width=125px></div>"
+                            ),
+                            (addresses[j]),
+                        ),
+                        color=hT[j],
+                        fill_color=hT[j],
+                        icon="",
+                        fill_opacity=1,
+                    ).add_to(m)
                     # print(marker[i], marker[i + 1])
                     i += 2
                     j += 1
                 else:  # Non-dnr special cond
-                    folium.CircleMarker([float(marker[i]), float(marker[i + 1])], popup=(
-                    (id[j]), ("<div style=width:300px ><img src=" + "'" + img1[j] + "'" + "width=125px></div>"),
-                    ("<div style=width:300px ><img src=" + "'" + img2[j] + "'" + "width=125px></div>"), (addresses[j])),
-                                        radius=2.5, color=hT[j], fill_color=hT[j], fill_opacity=1).add_to(m)
+                    folium.CircleMarker(
+                        [float(marker[i]), float(marker[i + 1])],
+                        popup=(
+                            (id[j]),
+                            (
+                                "<div style=width:300px ><img src="
+                                + "'"
+                                + img1[j]
+                                + "'"
+                                + "width=125px></div>"
+                            ),
+                            (
+                                "<div style=width:300px ><img src="
+                                + "'"
+                                + img2[j]
+                                + "'"
+                                + "width=125px></div>"
+                            ),
+                            (addresses[j]),
+                        ),
+                        radius=2.5,
+                        color=hT[j],
+                        fill_color=hT[j],
+                        fill_opacity=1,
+                    ).add_to(m)
                     # print(marker[i], marker[i + 1])
                     i += 2
                     j += 1
             elif "repair" not in mapLayers.lower():
                 if overallType[j] == "Replace":
-                    folium.RegularPolygonMarker([float(marker[i]), float(marker[i + 1])], radius=6, popup=(
-                    (id[j]), ("<div style=width:300px ><img src=" + "'" + img1[j] + "'" + "width=125px></div>"),
-                    ("<div style=width:300px ><img src=" + "'" + img2[j] + "'" + "width=125px></div>"), (addresses[j])),
-                                                color=hT[j], fill_color=hT[j], icon='', fill_opacity=1).add_to(m)
+                    folium.RegularPolygonMarker(
+                        [float(marker[i]), float(marker[i + 1])],
+                        radius=6,
+                        popup=(
+                            (id[j]),
+                            (
+                                "<div style=width:300px ><img src="
+                                + "'"
+                                + img1[j]
+                                + "'"
+                                + "width=125px></div>"
+                            ),
+                            (
+                                "<div style=width:300px ><img src="
+                                + "'"
+                                + img2[j]
+                                + "'"
+                                + "width=125px></div>"
+                            ),
+                            (addresses[j]),
+                        ),
+                        color=hT[j],
+                        fill_color=hT[j],
+                        icon="",
+                        fill_opacity=1,
+                    ).add_to(m)
                     # print(marker[i], marker[i + 1])
                     i += 2
                     j += 1
@@ -476,35 +616,92 @@ def Map():
             else:
                 if overallType[j] == "NormalRepair":  # Normal hazard
                     if hT[j] == "yellow":
-                        icon_path = r'https://jcleftwi.github.io/GIS715/yellowPin.png'
-                        icon = folium.features.CustomIcon(icon_image=icon_path, icon_size=(15, 16))
-                        folium.Marker([float(marker[i]), float(marker[i + 1])], popup=(
-                            (id[j]), ("<div style=width:300px ><img src=" + "'" + img1[j] + "'" + "width=125px></div>"),
-                            ("<div style=width:300px ><img src=" + "'" + img2[j] + "'" + "width=125px></div>"),
-                            (addresses[j])),
-                                      icon=icon).add_to(m)
+                        icon_path = r"https://jcleftwi.github.io/GIS715/yellowPin.png"
+                        icon = folium.features.CustomIcon(
+                            icon_image=icon_path, icon_size=(15, 16)
+                        )
+                        folium.Marker(
+                            [float(marker[i]), float(marker[i + 1])],
+                            popup=(
+                                (id[j]),
+                                (
+                                    "<div style=width:300px ><img src="
+                                    + "'"
+                                    + img1[j]
+                                    + "'"
+                                    + "width=125px></div>"
+                                ),
+                                (
+                                    "<div style=width:300px ><img src="
+                                    + "'"
+                                    + img2[j]
+                                    + "'"
+                                    + "width=125px></div>"
+                                ),
+                                (addresses[j]),
+                            ),
+                            icon=icon,
+                        ).add_to(m)
                         # print(marker[i], marker[i + 1])
                         i += 2
                         j += 1
                     elif hT[j] == "darkblue":
-                        icon_path = r'https://jcleftwi.github.io/GIS715/bluePin.png'
-                        icon = folium.features.CustomIcon(icon_image=icon_path, icon_size=(15, 16))
-                        folium.Marker([float(marker[i]), float(marker[i + 1])], popup=(
-                            (id[j]), ("<div style=width:300px ><img src=" + "'" + img1[j] + "'" + "width=125px></div>"),
-                            ("<div style=width:300px ><img src=" + "'" + img2[j] + "'" + "width=125px></div>"),
-                            (addresses[j])),
-                                      icon=icon).add_to(m)
+                        icon_path = r"https://jcleftwi.github.io/GIS715/bluePin.png"
+                        icon = folium.features.CustomIcon(
+                            icon_image=icon_path, icon_size=(15, 16)
+                        )
+                        folium.Marker(
+                            [float(marker[i]), float(marker[i + 1])],
+                            popup=(
+                                (id[j]),
+                                (
+                                    "<div style=width:300px ><img src="
+                                    + "'"
+                                    + img1[j]
+                                    + "'"
+                                    + "width=125px></div>"
+                                ),
+                                (
+                                    "<div style=width:300px ><img src="
+                                    + "'"
+                                    + img2[j]
+                                    + "'"
+                                    + "width=125px></div>"
+                                ),
+                                (addresses[j]),
+                            ),
+                            icon=icon,
+                        ).add_to(m)
                         # print(marker[i], marker[i + 1])
                         i += 2
                         j += 1
                     else:
-                        icon_path = r'https://jcleftwi.github.io/GIS715/redPin.png'
-                        icon = folium.features.CustomIcon(icon_image=icon_path, icon_size=(15, 16))
-                        folium.Marker([float(marker[i]), float(marker[i + 1])], popup=(
-                            (id[j]), ("<div style=width:300px ><img src=" + "'" + img1[j] + "'" + "width=125px></div>"),
-                            ("<div style=width:300px ><img src=" + "'" + img2[j] + "'" + "width=125px></div>"),
-                            (addresses[j])),
-                                      icon=icon).add_to(m)
+                        icon_path = r"https://jcleftwi.github.io/GIS715/redPin.png"
+                        icon = folium.features.CustomIcon(
+                            icon_image=icon_path, icon_size=(15, 16)
+                        )
+                        folium.Marker(
+                            [float(marker[i]), float(marker[i + 1])],
+                            popup=(
+                                (id[j]),
+                                (
+                                    "<div style=width:300px ><img src="
+                                    + "'"
+                                    + img1[j]
+                                    + "'"
+                                    + "width=125px></div>"
+                                ),
+                                (
+                                    "<div style=width:300px ><img src="
+                                    + "'"
+                                    + img2[j]
+                                    + "'"
+                                    + "width=125px></div>"
+                                ),
+                                (addresses[j]),
+                            ),
+                            icon=icon,
+                        ).add_to(m)
                         # print(marker[i], marker[i + 1])
                         i += 2
                         j += 1
@@ -513,15 +710,37 @@ def Map():
                     i += 2
                     j += 1
                 else:  # Non-dnr special cond
-                    folium.CircleMarker([float(marker[i]), float(marker[i + 1])], popup=(
-                    (id[j]), ("<div style=width:300px ><img src=" + "'" + img1[j] + "'" + "width=125px></div>"),
-                    ("<div style=width:300px ><img src=" + "'" + img2[j] + "'" + "width=125px></div>"), (addresses[j])),
-                                        radius=6, color=hT[j], fill_color=hT[j], fill_opacity=1).add_to(m)
+                    folium.CircleMarker(
+                        [float(marker[i]), float(marker[i + 1])],
+                        popup=(
+                            (id[j]),
+                            (
+                                "<div style=width:300px ><img src="
+                                + "'"
+                                + img1[j]
+                                + "'"
+                                + "width=125px></div>"
+                            ),
+                            (
+                                "<div style=width:300px ><img src="
+                                + "'"
+                                + img2[j]
+                                + "'"
+                                + "width=125px></div>"
+                            ),
+                            (addresses[j]),
+                        ),
+                        radius=6,
+                        color=hT[j],
+                        fill_color=hT[j],
+                        fill_opacity=1,
+                    ).add_to(m)
                     print(marker[i], marker[i + 1])
                     i += 2
                     j += 1
 
     folium.LayerControl().add_to(m)
     m.save("index.html")
+
 
 m = Map()
