@@ -25,6 +25,16 @@ urlpatterns = [
         project_views.ProjectDetailView.as_view(),
         name="project-detail",
     ),
+    path(
+        "projects/<int:pk>/survey-instructions/",
+        project_views.SurveyInstructionsView.as_view(),
+        name="project-si",
+    ),
+    path(
+        "projects/<int:pk>/project-instructions/",
+        project_views.ProjectInstructionsView.as_view(),
+        name="project-pi",
+    ),
     path("map/", map_views.MapView.as_view(), name="map"),
     path("", index_views.IndexView.as_view(), name="index"),
 ]

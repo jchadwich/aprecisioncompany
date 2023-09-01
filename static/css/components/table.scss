@@ -20,13 +20,17 @@
     border-top: 1px solid rgba($outline, 0.24);
   }
 
+  thead tr {
+    background-color: $surface-variant;
+  }
+
   tbody tr {
     &:hover {
       background-color: rgba($scrim, $hoverOpacity / 100%);
     }
   }
 
-  td a {
+  td a:not(.btn) {
     color: $primary;
 
     &:hover {

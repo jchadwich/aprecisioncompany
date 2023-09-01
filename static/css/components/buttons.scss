@@ -55,9 +55,17 @@
     @extend .btn;
     @include stateLayers($primary);
 
+    color: $on-surface-variant;
     height: 40px;
     width: 40px;
     padding: 0;
+  }
+
+  &--icon-sm {
+    @extend .btn--icon;
+
+    height: 32px;
+    width: 32px;
   }
 
   &--microsoft {

@@ -51,6 +51,52 @@ class Project(models.Model):
         """Return the primary Contact (if exists)"""
         return self.contacts.order_by("projectcontact__order").first()
 
+    @property
+    def has_survey_measurements(self):
+        """Return True if the survey measurements exist"""
+        from repairs.models.measurements import Measurement
+
+        stage = Measurement.Stage.SURVEY
+        return self.measurements.filter(stage=stage).exists()
+
+    @property
+    def has_production_measurements(self):
+        """Return True if the production measurements exist"""
+        from repairs.models.measurements import Measurement
+
+        stage = Measurement.Stage.PRODUCTION
+        return self.measurements.filter(stage=stage).exists()
+
+    @property
+    def has_survey_instructions(self):
+        """Return True if the survey instructions exist"""
+        # TODO: define logic
+        return False
+
+    @property
+    def has_project_instructions(self):
+        """Return True if the project instructions exist"""
+        # TODO: define logic
+        return False
+
+    @property
+    def has_pricing_sheet(self):
+        """Return True if the pricing sheet exists"""
+        # TODO: define logic
+        return False
+
+    @property
+    def has_project_summary(self):
+        """Return True if the project summary exists"""
+        # TODO: define logic
+        return False
+
+    @property
+    def has_post_project_review(self):
+        """Return True if the post-project review exists"""
+        # TODO: define logic
+        return False
+
 
 class ProjectContact(models.Model):
     """Through table for the Project/Contact relationship"""

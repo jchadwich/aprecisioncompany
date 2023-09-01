@@ -1,5 +1,7 @@
-.icon {
-  font-family: "Material Icons Outlined";
+@import "../theme/colors.scss";
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
   font-weight: normal;
   font-style: normal;
   font-size: 24px;  /* Preferred icon size */
@@ -10,15 +12,20 @@
   word-wrap: normal;
   white-space: nowrap;
   direction: ltr;
+}
 
-  /* Support for all WebKit browsers. */
-  -webkit-font-smoothing: antialiased;
-  /* Support for Safari and Chrome. */
-  text-rendering: optimizeLegibility;
+.icon {
+  @extend .material-symbols-outlined;
 
-  /* Support for Firefox. */
-  -moz-osx-font-smoothing: grayscale;
+  &--success {
+    color: $success;
+  }
 
-  /* Support for IE. */
-  font-feature-settings: "liga";
+  &--warning {
+    color: $warning;
+  }
+
+  &--error {
+    color: $error;
+  }
 }
