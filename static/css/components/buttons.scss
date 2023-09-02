@@ -55,6 +55,7 @@
     @extend .btn;
     @include stateLayers($primary);
 
+    background-color: transparent;
     color: $on-surface-variant;
     height: 40px;
     width: 40px;

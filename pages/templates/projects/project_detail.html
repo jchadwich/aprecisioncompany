@@ -32,7 +32,7 @@
         <td align="center">---</td>
         <td align="center">
           <div class="flex--center">
-            <a href="#" class="btn--icon-sm">
+            <a href="{% url 'project-measurements-import' pk=project.pk stage='survey' %}" class="btn--icon-sm">
               <span class="icon">upload_file</span>
             </a>
             {% if exists %}
@@ -86,7 +86,7 @@
         <td align="center">---</td>
         <td>
           <div class="flex--center">
-            <a href="#" class="btn--icon-sm">
+            <a href="{% url 'project-measurements-import' pk=project.pk stage='production' %}" class="btn--icon-sm">
               <span class="icon">upload_file</span>
             </a>
             {% if exists %}

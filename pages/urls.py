@@ -31,12 +31,17 @@ urlpatterns = [
         name="project-detail",
     ),
     path(
-        "projects/<int:pk>/survey-instructions/",
+        "projects/<int:pk>/measurements/<str:stage>/",
+        project_views.ProjectMeasurementsImportView.as_view(),
+        name="project-measurements-import",
+    ),
+    path(
+        "projects/<int:pk>/instructions/survey/",
         project_views.SurveyInstructionsView.as_view(),
         name="project-si",
     ),
     path(
-        "projects/<int:pk>/project-instructions/",
+        "projects/<int:pk>/instructions/project/",
         project_views.ProjectInstructionsView.as_view(),
         name="project-pi",
     ),
