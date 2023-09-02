@@ -36,7 +36,7 @@
               <span class="icon">upload_file</span>
             </a>
             {% if exists %}
-            <a href="#" class="btn--icon-sm ml-1">
+            <a href="{% url 'project-measurements-export' pk=project.pk stage='survey' %}" class="btn--icon-sm ml-1">
               <span class="icon">download</span>
             </a>
             {% endif %}
@@ -90,7 +90,7 @@
               <span class="icon">upload_file</span>
             </a>
             {% if exists %}
-            <a href="#" class="btn--icon-sm ml-1">
+            <a href="{% url 'project-measurements-export' pk=project.pk stage='production' %}" class="btn--icon-sm ml-1">
               <span class="icon">download</span>
             </a>
             {% endif %}

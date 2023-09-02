@@ -1,8 +1,13 @@
+import csv
 import io
 import logging
 
+from django.http import HttpResponse
+from django.db.models import F, Func, ExpressionWrapper, FloatField
 from django.shortcuts import get_object_or_404, redirect, reverse
+from django.views import View
 from django.views.generic import DetailView, FormView, ListView
+from django.utils.text import slugify
 from pydantic import ValidationError
 
 from pages.forms.projects import (
@@ -65,6 +70,64 @@ class ProjectMeasurementsImportView(FormView):
             return redirect(redirect_url)
 
         return super().form_valid(form)
+
+
+class ProjectMeasurementsExportView(View):
+    """Download the project measurements CSV"""
+
+    _columns = (
+        "object_id",
+        "global_id",
+        "length",
+        "width",
+        "x",
+        "y",
+        "special_case",
+        "quick_description",
+        "h1",
+        "h2",
+        "linear_feet",
+        "inch_feet",
+        "slope",
+        "curb_length",
+        "survey_address",
+        "surveyor",
+        "note",
+        "geocoded_address",
+        "measured_at",
+        "created_at",
+    )
+
+    def get(self, request, pk, stage):
+        project = get_object_or_404(Project, pk=pk)
+        filename = f"{slugify(project.name)}_measurements_{stage}.csv"
+        stage = Measurement.Stage(stage.upper())
+
+        measurements = list(
+            project.measurements.filter(stage=stage)
+            .order_by("object_id")
+            .annotate(
+                x=ExpressionWrapper(
+                    Func("coordinate", function="ST_X"), output_field=FloatField()
+                )
+            )
+            .annotate(
+                y=ExpressionWrapper(
+                    Func("coordinate", function="ST_Y"), output_field=FloatField()
+                )
+            )
+            .values(*self._columns),
+        )
+
+        with io.StringIO() as f:
+            writer = csv.DictWriter(f, fieldnames=self._columns)
+            writer.writeheader()
+            writer.writerows(measurements)
+
+            f.seek(0)
+            resp = HttpResponse(f, content_type="text/csv")
+            resp["Content-Disposition"] = f'attachment; filename="{filename}"'
+            return resp
 
 
 class SurveyInstructionsView(FormView):
