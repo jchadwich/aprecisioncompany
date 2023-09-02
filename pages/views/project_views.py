@@ -1,17 +1,16 @@
-import logging
 import io
+import logging
 
 from django.shortcuts import get_object_or_404, redirect, reverse
 from django.views.generic import DetailView, FormView, ListView
 from pydantic import ValidationError
 
 from pages.forms.projects import (
-    ProjectMeasurementsForm,
     ProjectInstructionsForm,
+    ProjectMeasurementsForm,
     SurveyInstructionsForm,
 )
 from repairs.models import Measurement, Project
-
 
 LOGGER = logging.getLogger(__name__)
 
