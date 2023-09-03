@@ -1,4 +1,3 @@
-import googlemaps
 from django.conf import settings
 from django.contrib.gis.db.models.fields import PointField
 from django.db import models, transaction
@@ -42,18 +41,6 @@ class Measurement(models.Model):
     geocoded_address = models.CharField(max_length=255, blank=True, null=True)
     measured_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
-
-    def get_geocoded_address(self):
-        """Return the reverse geocoded address from the coordinate"""
-
-        client = googlemaps.Client(key=settings.GOOGLE_API_KEY)
-        addresses = client.reverse_geocode((self.coordinate.y, self.coordinate.x))
-
-        for address in addresses:
-            if address["types"] == ["premise"]:
-                return address["formatted_address"]
-
-        return None
 
     @staticmethod
     def import_from_csv(file_obj, project, stage):
