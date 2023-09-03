@@ -10,7 +10,7 @@
   &#8212; {{ project.territory.name }} ({{ project.territory.label }})
 </h6>
 
-<div class="mt-16">
+<div class="mt-12">
   <h4>Documents</h4>
   <table class="table mt-2">
     <thead>
@@ -163,4 +163,16 @@
   </table>
 </div>
 
+<div class="mt-12">
+  <h4>Map</h4>
+  <div class="my-2">
+    <div id="map" class="map"></div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(() => {
+    var measurementsMap = new MeasurementsMap("map", "{{ project.pk }}")
+  })
+</script>
 {% endblock %}
