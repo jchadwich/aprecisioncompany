@@ -26,6 +26,7 @@
     cursor: pointer;
     color: $on-surface;
     display: block;
+    text-decoration: none !important;
 
     &--end {
       @extend .nav-item;

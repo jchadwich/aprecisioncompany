@@ -8,8 +8,10 @@
 @import "./layout/height.scss";
 @import "./components/app_bar.scss";
 @import "./components/buttons.scss";
+@import "./components/chip.scss";
 @import "./components/icons.scss";
 @import "./components/nav_rail.scss";
+@import "./components/snackbar.scss";
 @import "./components/table.scss";
 @import "./components/text_field.scss";
 
@@ -21,8 +23,16 @@ body {
 
 a {
   text-decoration: none;
+  
+  &:not(.btn) {
+    color: $primary !important;
+  }
 
-  &:visited {
+  &:hover:not(.btn) {
+    text-decoration: underline;
+  }
+
+  &:visited:not(.btn) {
     color: inherit;
   }
 }

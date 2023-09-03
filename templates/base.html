@@ -8,14 +8,20 @@
       <link rel="stylesheet" type="text/x-scss" href="{% static 'css/styles.scss' %}" media="screen">
     {% endcompress %}
 
+    <!-- Mapbox GL -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+
     <!-- Google Fonts (Material Icons) -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <!-- JS helpers -->
     <script src="{% static 'js/navigation.js' %}"></script>
+    <script src="{% static 'js/snackbar.js' %}"></script>
+    <script src="{% static 'js/maps.js' %}"></script>
 
     {% block head %}
     {% endblock %}
@@ -35,6 +41,19 @@
       {% block content %}{% endblock %}
       </div>
     </main>
+  {% endblock %}
+
+  {% block snackbar %}
+    {% if error %}
+    <div class="snackbar">
+      <div class="snackbar-content">
+        <div class="snackbar-text">{{ error }}</div>
+        <button class="btn--icon" id="snackbar-close">
+          <span class="icon">close</span>
+        </button>
+      </div>
+    </div>
+    {% endif %}
   {% endblock %}
   </body>
 </html>
