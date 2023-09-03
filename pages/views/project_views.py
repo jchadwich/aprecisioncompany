@@ -2,12 +2,12 @@ import csv
 import io
 import logging
 
+from django.db.models import ExpressionWrapper, FloatField, Func
 from django.http import HttpResponse
-from django.db.models import F, Func, ExpressionWrapper, FloatField
 from django.shortcuts import get_object_or_404, redirect, reverse
+from django.utils.text import slugify
 from django.views import View
 from django.views.generic import DetailView, FormView, ListView
-from django.utils.text import slugify
 from pydantic import ValidationError
 
 from pages.forms.projects import (

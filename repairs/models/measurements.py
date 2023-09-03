@@ -1,4 +1,6 @@
-import googlemaps
+import json
+
+import boto3
 from django.conf import settings
 from django.contrib.gis.db.models.fields import PointField
 from django.db import models, transaction
@@ -43,18 +45,6 @@ class Measurement(models.Model):
     measured_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def get_geocoded_address(self):
-        """Return the reverse geocoded address from the coordinate"""
-
-        client = googlemaps.Client(key=settings.GOOGLE_API_KEY)
-        addresses = client.reverse_geocode((self.coordinate.y, self.coordinate.x))
-
-        for address in addresses:
-            if address["types"] == ["premise"]:
-                return address["formatted_address"]
-
-        return None
-
     @staticmethod
     def import_from_csv(file_obj, project, stage):
         """Import the Measurements from CSV (replaces any existing)"""
@@ -71,6 +61,16 @@ class Measurement(models.Model):
             for data in parser_cls.from_csv(file_obj):
                 kwargs = data.model_dump()
                 Measurement.objects.create(project=project, stage=stage, **kwargs)
+
+        # Trigger the Lambda function to reverse geocode the addresses
+        # based on the coordinates by adding the (project_id, stage) to
+        # the SQS queue
+        queue_url = settings.MEASUREMENT_GEOCODING_QUEUE_URL
+
+        if queue_url:
+            payload = json.dumps({"project_id": project.pk, "stage": stage})
+            sqs = boto3.client("sqs")
+            sqs.send_message(QueueUrl=queue_url, MessageBody=payload)
 
         return Measurement.objects.filter(project=project, stage=stage)
 

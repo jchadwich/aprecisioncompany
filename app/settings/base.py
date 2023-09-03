@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 
 from app.settings.auth import *
+from app.settings.aws import *
 from app.settings.db import *
 from app.settings.storage import *
 
@@ -100,6 +101,3 @@ COMPRESS_PRECOMPILERS = [
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-# Google API key
-GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
