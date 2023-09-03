@@ -6,9 +6,6 @@ network:
 image:
 	@docker compose build ${APP}
 
-images_lambda:
-	@docker compose build lambda_geocoding
-
 shell:
 	@docker compose exec ${APP} /bin/bash
 
