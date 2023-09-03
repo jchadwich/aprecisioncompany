@@ -55,3 +55,17 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+
+  lambda_geocoding:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.lambda.geocoding
+    environment:
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=pss_dev
+    env_file:
+      - docker/env.secrets
+    ports:
+      - 9000:8080
