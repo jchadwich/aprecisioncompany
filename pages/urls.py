@@ -41,6 +41,11 @@ urlpatterns = [
         name="project-measurements-export",
     ),
     path(
+        "projects/<int:pk>/measurements/<str:stage>/clear/",
+        project_views.ProjectMeasurementsClearView.as_view(),
+        name="project-measurements-clear",
+    ),
+    path(
         "projects/<int:pk>/instructions/survey/",
         project_views.SurveyInstructionsView.as_view(),
         name="project-si",

@@ -118,10 +118,9 @@ class ProjectMeasurementsExportView(View):
     def get(self, request, pk, stage):
         project = get_object_or_404(Project, pk=pk)
         filename = f"{slugify(project.name)}_measurements_{stage}.csv"
-        stage = Measurement.Stage(stage.upper())
 
         measurements = list(
-            project.measurements.filter(stage=stage)
+            project.measurements.filter(stage=stage.upper())
             .order_by("object_id")
             .annotate(
                 x=ExpressionWrapper(
@@ -145,6 +144,15 @@ class ProjectMeasurementsExportView(View):
             resp = HttpResponse(f, content_type="text/csv")
             resp["Content-Disposition"] = f'attachment; filename="{filename}"'
             return resp
+
+
+class ProjectMeasurementsClearView(View):
+    def post(self, request, pk, stage):
+        project = get_object_or_404(Project, pk=pk)
+        project.measurements.filter(stage=stage.upper()).delete()
+
+        redirect_url = reverse("project-detail", kwargs={"pk": pk})
+        return redirect(redirect_url)
 
 
 class SurveyInstructionsView(FormView):

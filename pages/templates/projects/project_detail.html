@@ -39,6 +39,12 @@
             <a href="{% url 'project-measurements-export' pk=project.pk stage='survey' %}" class="btn--icon-sm ml-1">
               <span class="icon">download</span>
             </a>
+            <form method="POST" action="{% url 'project-measurements-clear' pk=project.pk stage='survey' %}">
+              {% csrf_token %}
+              <button class="btn--icon-sm ml-1">
+                <span class="icon">delete</span>
+              </button>
+            </form>
             {% endif %}
           </div>
         </td>
@@ -93,6 +99,12 @@
             <a href="{% url 'project-measurements-export' pk=project.pk stage='production' %}" class="btn--icon-sm ml-1">
               <span class="icon">download</span>
             </a>
+            <form method="POST" action="{% url 'project-measurements-clear' pk=project.pk stage='production' %}">
+              {% csrf_token %}
+              <button class="btn--icon-sm ml-1">
+                <span class="icon">delete</span>
+              </button>
+            </form>
             {% endif %}
           </div>
         </td>
