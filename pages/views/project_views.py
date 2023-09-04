@@ -1,5 +1,6 @@
 import csv
 import io
+import json
 import logging
 
 from django.db.models import ExpressionWrapper, FloatField, Func
@@ -30,6 +31,16 @@ class ProjectDetailView(DetailView):
     model = Project
     template_name = "projects/project_detail.html"
     context_object_name = "project"
+
+    def get_context_data(self, **kwargs):
+        project = self.get_object()
+        context = super().get_context_data(**kwargs)
+        context["bbox"] = list(project.get_bbox())
+        context["centroid"] = list(project.get_centroid().coords)
+        context["measurements"] = json.dumps(
+            project.get_measurements_geojson(), default=str
+        )
+        return context
 
 
 class ProjectMeasurementsImportView(FormView):

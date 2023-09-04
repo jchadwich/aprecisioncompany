@@ -172,7 +172,13 @@
 
 <script>
   $(document).ready(() => {
-    var measurementsMap = new MeasurementsMap("map", "{{ project.pk }}")
+    const bbox = JSON.parse("{{ bbox }}")
+    const centroid = JSON.parse("{{ centroid }}")
+    const geojson = JSON.parse("{{ measurements|safe|escapejs }}")
+
+    var map = new MeasurementsMap("map", "{{ project.pk }}", centroid)
+    map.fitBounds(bbox)
+    map.addFeatures(geojson.features, "measurements")
   })
 </script>
 {% endblock %}

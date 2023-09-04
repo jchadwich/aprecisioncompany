@@ -10,5 +10,6 @@ urlpatterns = [
     path("auth/logout/", LogoutView.as_view(), name="logout"),
     path("microsoft/", include("microsoft_auth.urls", namespace="microsoft")),
     path("status/", status, name="status"),
+    path("api/", include("api.urls")),
     path("", include("pages.urls")),
 ]

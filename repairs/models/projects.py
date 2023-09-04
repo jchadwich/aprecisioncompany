@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.contrib.gis.db.models.aggregates import Union
 
 from pss.models import Contact, Customer, Territory
 
@@ -50,6 +51,24 @@ class Project(models.Model):
     def primary_contact(self):
         """Return the primary Contact (if exists)"""
         return self.contacts.order_by("projectcontact__order").first()
+
+    def get_bbox(self):
+        """Return the bounding box of the Measurements"""
+        union = self.measurements.aggregate(union=Union("coordinate"))["union"]
+        return union.extent
+
+    def get_centroid(self):
+        """Return the centroid of the Measurements"""
+        union = self.measurements.aggregate(union=Union("coordinate"))["union"]
+        return union.centroid
+
+    def get_measurements_geojson(self):
+        """Return the GeoJSON dictionary of the Measurements"""
+        from api.serializers.measurements import MeasurementSerializer
+
+        measurements = self.measurements.all()
+        serializer = MeasurementSerializer(measurements, many=True)
+        return serializer.data
 
     def get_survey_measurements(self):
         """Return the survey measurements queryset"""

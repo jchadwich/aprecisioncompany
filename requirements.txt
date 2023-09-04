@@ -1,8 +1,10 @@
 boto3==1.28.39
 django==4.2.4
 djangorestframework==3.14.0
+djangorestframework-gis==1.0
 django-compressor==4.4
 django-extensions==3.2.3
+django-filter==23.2
 django-libsass==0.9
 django-microsoft-auth==3.0.1
 gunicorn==21.2.0

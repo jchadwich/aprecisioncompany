@@ -5,6 +5,7 @@ from pathlib import Path
 from app.settings.auth import *
 from app.settings.aws import *
 from app.settings.db import *
+from app.settings.drf import *
 from app.settings.storage import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -33,6 +34,9 @@ INSTALLED_APPS = [
     "django_extensions",
     "compressor",
     "microsoft_auth",
+    "rest_framework",
+    "rest_framework_gis",
+    "django_filters",
     "accounts",
     "pages",
     "pss",
