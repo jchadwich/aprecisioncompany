@@ -51,6 +51,15 @@
     color: $primary !important;
   }
 
+  &--text-error {
+    @extend .btn;
+    @include stateLayers($error, $disabled: false)
+    @include disabledStateLayer($on-surface, true);
+
+    background-color: transparent;
+    color: $error !important;
+  }
+
   &--icon {
     @extend .btn;
     @include stateLayers($primary);

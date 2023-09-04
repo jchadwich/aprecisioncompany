@@ -10,7 +10,7 @@
   &#8212; {{ project.territory.name }} ({{ project.territory.label }})
 </h6>
 
-<div class="mt-16">
+<div class="mt-12">
   <h4>Documents</h4>
   <table class="table mt-2">
     <thead>
@@ -39,6 +39,30 @@
             <a href="{% url 'project-measurements-export' pk=project.pk stage='survey' %}" class="btn--icon-sm ml-1">
               <span class="icon">download</span>
             </a>
+
+            <!-- Clear survey measurements (modal) -->
+            <button class="btn--icon-sm ml-1" id="btn-clear-survey-measurements">
+              <span class="icon">delete</span>
+            </button>
+
+            <div class="dialog" data-control="btn-clear-survey-measurements">
+              <div class="dialog-content">
+                <div class="dialog-title">
+                  Remove survey measurements
+                </div>
+
+                <div class="dialog-body">
+                  Are you sure you want to remove all survey measurements?
+                </div>
+
+                <div class="dialog-actions">
+                  <form method="POST" action="{% url 'project-measurements-clear' pk=project.pk stage='survey' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn--text-error">Remove</button>
+                  </form>
+                </div>
+              </div>
+            </div>
             {% endif %}
           </div>
         </td>
@@ -93,6 +117,30 @@
             <a href="{% url 'project-measurements-export' pk=project.pk stage='production' %}" class="btn--icon-sm ml-1">
               <span class="icon">download</span>
             </a>
+
+            <!-- Clear production measurements (modal) -->
+            <button class="btn--icon-sm ml-1" id="btn-clear-production-measurements">
+              <span class="icon">delete</span>
+            </button>
+
+            <div class="dialog" data-control="btn-clear-production-measurements">
+              <div class="dialog-content">
+                <div class="dialog-title">
+                  Remove production measurements
+                </div>
+
+                <div class="dialog-body">
+                  Are you sure you want to remove all production measurements?
+                </div>
+
+                <div class="dialog-actions">
+                  <form method="POST" action="{% url 'project-measurements-clear' pk=project.pk stage='production' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn--text-error">Remove</button>
+                  </form>
+                </div>
+              </div>
+            </div>
             {% endif %}
           </div>
         </td>
@@ -163,4 +211,29 @@
   </table>
 </div>
 
+<div class="mt-12">
+  <h4>Map</h4>
+  <div class="my-2">
+  {% if project.measurements.exists %}
+    <div id="map" class="map"></div>
+  {% else %}
+    <p>No measurements to display</p>
+  {% endif %}
+  </div>
+</div>
+
+<script>
+  $(document).ready(() => {
+    const geojson = JSON.parse("{{ measurements|safe|escapejs }}")
+
+    if (geojson.features.length > 0) {
+      const bbox = JSON.parse("{{ bbox }}")
+      const centroid = JSON.parse("{{ centroid }}")
+
+      var map = new MeasurementsMap("map", "{{ project.pk }}", centroid)
+      map.fitBounds(bbox)
+      map.addFeatures(geojson.features, "measurements")
+    }
+  })
+</script>
 {% endblock %}

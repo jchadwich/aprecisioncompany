@@ -28,4 +28,10 @@
   &--error {
     color: $error;
   }
+
+  &--filled {
+    @extend .icon;
+
+    font-family: "Material Icons";
+  }
 }

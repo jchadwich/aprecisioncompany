@@ -1,5 +1,6 @@
 import csv
 import io
+import json
 import logging
 
 from django.db.models import ExpressionWrapper, FloatField, Func
@@ -30,6 +31,22 @@ class ProjectDetailView(DetailView):
     model = Project
     template_name = "projects/project_detail.html"
     context_object_name = "project"
+
+    def get_context_data(self, **kwargs):
+        project = self.get_object()
+        context = super().get_context_data(**kwargs)
+
+        markers = project.get_measurements_geojson()
+        context["measurements"] = json.dumps(markers, default=str)
+
+        if project.measurements.exists():
+            bbox = project.get_bbox(buffer_fraction=0.1)
+            centroid = project.get_centroid().coords
+
+            context["bbox"] = list(bbox)
+            context["centroid"] = list(centroid)
+
+        return context
 
 
 class ProjectMeasurementsImportView(FormView):
@@ -101,10 +118,9 @@ class ProjectMeasurementsExportView(View):
     def get(self, request, pk, stage):
         project = get_object_or_404(Project, pk=pk)
         filename = f"{slugify(project.name)}_measurements_{stage}.csv"
-        stage = Measurement.Stage(stage.upper())
 
         measurements = list(
-            project.measurements.filter(stage=stage)
+            project.measurements.filter(stage=stage.upper())
             .order_by("object_id")
             .annotate(
                 x=ExpressionWrapper(
@@ -128,6 +144,15 @@ class ProjectMeasurementsExportView(View):
             resp = HttpResponse(f, content_type="text/csv")
             resp["Content-Disposition"] = f'attachment; filename="{filename}"'
             return resp
+
+
+class ProjectMeasurementsClearView(View):
+    def post(self, request, pk, stage):
+        project = get_object_or_404(Project, pk=pk)
+        project.measurements.filter(stage=stage.upper()).delete()
+
+        redirect_url = reverse("project-detail", kwargs={"pk": pk})
+        return redirect(redirect_url)
 
 
 class SurveyInstructionsView(FormView):
