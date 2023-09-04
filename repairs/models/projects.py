@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
-from django.db import models
 from django.contrib.gis.db.models.aggregates import Union
+from django.db import models
 
 from pss.models import Contact, Customer, Territory
 
@@ -52,10 +52,17 @@ class Project(models.Model):
         """Return the primary Contact (if exists)"""
         return self.contacts.order_by("projectcontact__order").first()
 
-    def get_bbox(self):
+    def get_bbox(self, buffer_fraction=0):
         """Return the bounding box of the Measurements"""
         union = self.measurements.aggregate(union=Union("coordinate"))["union"]
-        return union.extent
+        bbox = union.extent
+
+        if buffer_fraction:
+            (xmin, ymin, xmax, ymax) = bbox
+            buffer = buffer_fraction * max(xmax - xmin, ymax - ymin)
+            bbox = union.buffer(buffer).extent
+
+        return bbox
 
     def get_centroid(self):
         """Return the centroid of the Measurements"""

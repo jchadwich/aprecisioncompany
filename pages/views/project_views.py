@@ -35,11 +35,17 @@ class ProjectDetailView(DetailView):
     def get_context_data(self, **kwargs):
         project = self.get_object()
         context = super().get_context_data(**kwargs)
-        context["bbox"] = list(project.get_bbox())
-        context["centroid"] = list(project.get_centroid().coords)
-        context["measurements"] = json.dumps(
-            project.get_measurements_geojson(), default=str
-        )
+
+        markers = project.get_measurements_geojson()
+        context["measurements"] = json.dumps(markers, default=str)
+
+        if project.measurements.exists():
+            bbox = project.get_bbox(buffer_fraction=0.1)
+            centroid = project.get_centroid().coords
+
+            context["bbox"] = list(bbox)
+            context["centroid"] = list(centroid)
+
         return context
 
 

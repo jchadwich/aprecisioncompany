@@ -166,19 +166,26 @@
 <div class="mt-12">
   <h4>Map</h4>
   <div class="my-2">
+  {% if project.measurements.exists %}
     <div id="map" class="map"></div>
+  {% else %}
+    <p>No measurements to display</p>
+  {% endif %}
   </div>
 </div>
 
 <script>
   $(document).ready(() => {
-    const bbox = JSON.parse("{{ bbox }}")
-    const centroid = JSON.parse("{{ centroid }}")
     const geojson = JSON.parse("{{ measurements|safe|escapejs }}")
 
-    var map = new MeasurementsMap("map", "{{ project.pk }}", centroid)
-    map.fitBounds(bbox)
-    map.addFeatures(geojson.features, "measurements")
+    if (geojson.features.length > 0) {
+      const bbox = JSON.parse("{{ bbox }}")
+      const centroid = JSON.parse("{{ centroid }}")
+
+      var map = new MeasurementsMap("map", "{{ project.pk }}", centroid)
+      map.fitBounds(bbox)
+      map.addFeatures(geojson.features, "measurements")
+    }
   })
 </script>
 {% endblock %}
