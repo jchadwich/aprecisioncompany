@@ -1,5 +1,5 @@
-from django.utils.html import mark_safe
 from django.shortcuts import reverse
+from django.utils.html import mark_safe
 from rest_framework import serializers
 
 from pss.models import Customer
