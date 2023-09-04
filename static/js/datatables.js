@@ -66,6 +66,7 @@ class DataTable {
       $(search).on("keyup", (event) => this.onSearch(event.target.value))
       
       const container = $(`<div class="search-bar"></div>`)
+      $(container).append(`<span class="icon">search</span>`)
       $(container).append(search)
       $(actions).prepend(container)
     }
