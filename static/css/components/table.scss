@@ -38,3 +38,13 @@
     }
   }
 }
+
+.pagination {
+  @extend .text--body-md;
+
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+  margin-bottom: 8px;
+}

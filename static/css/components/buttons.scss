@@ -62,7 +62,8 @@
 
   &--icon {
     @extend .btn;
-    @include stateLayers($primary);
+    @include stateLayers($primary, $disabled: false);
+    @include disabledStateLayer($on-surface, true);
 
     background-color: transparent;
     color: $on-surface-variant;

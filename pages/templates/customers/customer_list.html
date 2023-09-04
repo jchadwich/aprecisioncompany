@@ -8,32 +8,23 @@
   </a>
 </div>
 
-<div class="mt-12">
-  <table class="table mt-4">
-    <thead>
-      <tr>
-        <th>Customer Name</th>
-        <th>Location</th>
-        <th>Active Projects</th>
-        <th>Completed Projects</th>
-        <th>Created</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for customer in customers %}
-      <tr>
-        <td>
-          <a href="{% url 'customer-detail' pk=customer.pk %}">
-            {{ customer.name }}
-          </a>
-        </td>
-        <td>{{ customer.short_address|default:"" }}</td>
-        <td>{{ customer.active_projects.count }}</td>
-        <td>{{ customer.completed_projects.count }}</td>
-        <td>{{ customer.created_at|date:"n/j/Y" }}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+<div class="my-12">
+  <div id="customers-table"></div>
 </div>
+
+<script>
+  $(document).ready(() => {
+    const table = new DataTable("customers-table", {
+      columns: [
+        "Customer Name",
+        "Location",
+        "Active Projects",
+        "Completed Projects",
+        "Created",
+      ],
+      url: "/api/tables/customers/",
+      perPage: 10,
+    })
+  })
+</script>
 {% endblock %}
