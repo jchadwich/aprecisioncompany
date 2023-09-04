@@ -25,7 +25,11 @@ class MeasurementsMap {
       const popup = new mapboxgl.Popup({ offset: 24 })
         .setHTML(`<h5>${feature.id}</h5>`)
 
-      new mapboxgl.Marker()
+      const pin = document.createElement("span")
+      pin.className = "icon--filled"
+      pin.textContent = "location_on"
+
+      new mapboxgl.Marker({ element: pin })
         .setLngLat(feature.geometry.coordinates)
         .setPopup(popup)
         .addTo(this.map)
