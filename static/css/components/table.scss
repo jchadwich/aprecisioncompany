@@ -1,6 +1,8 @@
 @import "../theme/typography.scss";
 @import "../theme/states.scss";
 @import "../theme/colors.scss";
+@import "../layout/padding.scss";
+@import "../layout/flex.scss";
 
 .table {
   @extend .text--body-md;
@@ -39,12 +41,18 @@
   }
 }
 
-.pagination {
+.table-actions {
   @extend .text--body-md;
+  @extend .flex;
+  @extend .align-items-center;
+  @extend .justify-content-between;
+  @extend .mb-2;
 
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  width: 100%;
-  margin-bottom: 8px;
+  .table-pagination {
+    @extend .flex;
+    @extend .align-items-center;
+  }
+
+  .table-search {
+  }
 }

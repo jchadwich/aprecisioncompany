@@ -3,6 +3,7 @@ class DataTable {
     this.root = document.getElementById(rootId)
     this.options = options
     this.currentPage = 1
+    this.query = null
 
     this.initialize()
     this.render()
@@ -10,7 +11,7 @@ class DataTable {
 
   // Initialize the DOM elements defining the table
   initialize() {
-    const pagination = $(`<div class="pagination"></div>`)
+    const actions = $(`<div class="table-actions"></div>`)
     const table = $(`<table class="table"></table>`)
     const thead = $(`<thead></thead>`)
     const tbody = $(`<tbody></tbody>`)
@@ -22,7 +23,7 @@ class DataTable {
     $(table).append(thead)
     $(table).append(tbody)
 
-    $(this.root).append(pagination)
+    $(this.root).append(actions)
     $(this.root).append(table)
   }
 
@@ -30,13 +31,18 @@ class DataTable {
   async render() {
     const data = await this.fetchData()
     this.renderData(data)
-    this.renderPagination(data)
+    this.renderActions(data)
   }
 
   // Render the table data
   async renderData(data) {
     const tbody = $(this.root).find("tbody").first()
     tbody.empty()
+
+    if (data.count === 0) {
+      $(tbody).append(`<tr><td align="center" colspan="100%">No available data</td></tr>`)
+      return
+    }
 
     data.results?.forEach(row => {
       const tr = $("<tr></tr>")
@@ -45,11 +51,31 @@ class DataTable {
     })
   }
 
+  renderActions(data) {
+    const actions = $(this.root).find(`div[class="table-actions"]`)
+    
+    this.renderSearch(actions, data)
+    this.renderPagination(actions, data)
+  }
+
+  // Render the search bar
+  renderSearch(actions, data) {
+    if ($(this.root).find("#id-search").first().length === 0) {
+      const search = $(`<input id="id-search" type="text" placeholder="Search...">`)
+      $(search).on("keyup", (event) => this.onSearch(event.target.value))
+      
+      const container = $(`<div class="search-bar"></div>`)
+      $(container).append(search)
+      $(actions).prepend(container)
+    }
+  }
+
   // Render the table pagination
-  async renderPagination(data) { 
-    const pagination = $(this.root).find(`div[class="pagination"]`)
+  renderPagination(actions, data) { 
+    let pagination = $(actions).find(`div[class="table-pagination"]`)
     $(pagination).find("button").off("click")
-    $(pagination).empty()
+    $(pagination).remove()
+    pagination = $(`<div class="table-pagination"></div>`)
 
     const start = this.options.perPage * (this.currentPage - 1) + 1
     const end = Math.min(data.count, this.options.perPage * this.currentPage)
@@ -64,6 +90,8 @@ class DataTable {
     $(nextButton).prop("disabled", !data.next)
     $(nextButton).on("click", () => this.onNextPage())
     $(pagination).append(nextButton)
+
+    $(actions).append(pagination)
   }
 
   // Fetch the current page's data from the API
@@ -71,6 +99,10 @@ class DataTable {
     const pageUrl = new URL(this.options.url, window.location.origin)
     pageUrl.searchParams.set("page", this.currentPage)
     pageUrl.searchParams.set("per_page", this.options.perPage)
+
+    if (this.query) {
+      pageUrl.searchParams.set("q", this.query)
+    }
 
     const resp = await fetch(pageUrl)
     const data = await resp.json()
@@ -85,6 +117,11 @@ class DataTable {
 
   onNextPage() {
     this.currentPage++
+    this.render()
+  }
+
+  onSearch(query) {
+    this.query = query.trim()
     this.render()
   }
 }
