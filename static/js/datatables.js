@@ -52,7 +52,7 @@ class DataTable {
     $(pagination).empty()
 
     const start = this.options.perPage * (this.currentPage - 1) + 1
-    const end = this.options.perPage * this.currentPage
+    const end = Math.min(data.count, this.options.perPage * this.currentPage)
     $(pagination).append(`<span class="mr-2">Showing ${start} - ${end} of ${data.count}</span>`)
     
     const prevButton = $(`<button class="btn--icon"><span class="icon">chevron_left</span></button>`)
