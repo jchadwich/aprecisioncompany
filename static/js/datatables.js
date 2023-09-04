@@ -3,6 +3,7 @@ class DataTable {
     this.root = document.getElementById(rootId)
     this.options = options
     this.currentPage = 1
+    this.lastPage = 1
     this.query = null
 
     this.initialize()
@@ -72,6 +73,8 @@ class DataTable {
 
   // Render the table pagination
   renderPagination(actions, data) { 
+    this.lastPage = Math.ceil(data.count / this.options.perPage)
+    
     let pagination = $(actions).find(`div[class="table-pagination"]`)
     $(pagination).find("button").off("click")
     $(pagination).remove()
@@ -80,6 +83,11 @@ class DataTable {
     const start = this.options.perPage * (this.currentPage - 1) + 1
     const end = Math.min(data.count, this.options.perPage * this.currentPage)
     $(pagination).append(`<span class="mr-2">Showing ${start} - ${end} of ${data.count}</span>`)
+
+    const firstButton = $(`<button class="btn--icon"><span class="icon">first_page</span></button>`)
+    $(firstButton).prop("disabled", this.currentPage === 1)
+    $(firstButton).on("click", () => this.onFirstPage())
+    $(pagination).append(firstButton)
     
     const prevButton = $(`<button class="btn--icon"><span class="icon">chevron_left</span></button>`)
     $(prevButton).prop("disabled", !data.previous)
@@ -90,6 +98,11 @@ class DataTable {
     $(nextButton).prop("disabled", !data.next)
     $(nextButton).on("click", () => this.onNextPage())
     $(pagination).append(nextButton)
+    
+    const lastButton = $(`<button class="btn--icon"><span class="icon">last_page</span></button>`)
+    $(lastButton).prop("disabled", data.count <= this.options.perPage * this.currentPage)
+    $(lastButton).on("click", () => this.onLastPage())
+    $(pagination).append(lastButton)
 
     $(actions).append(pagination)
   }
@@ -110,6 +123,11 @@ class DataTable {
     return data
   }
 
+  onFirstPage() {
+    this.currentPage = 1
+    this.render()
+  }
+
   onPrevPage() {
     this.currentPage--
     this.render()
@@ -120,7 +138,13 @@ class DataTable {
     this.render()
   }
 
+  onLastPage() {
+    this.currentPage = this.lastPage
+    this.render()
+  }
+
   onSearch(query) {
+    this.currentPage = 1
     this.query = query.trim()
     this.render()
   }
