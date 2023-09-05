@@ -9,6 +9,11 @@ router.register(
 router.register(
     "tables/customers", tables.CustomerTableViewSet, basename="tables-customers"
 )
+router.register(
+    "tables/projects",
+    tables.ProjectTableViewSet,
+    basename="tables-projects",
+)
 
 
 urlpatterns = router.urls

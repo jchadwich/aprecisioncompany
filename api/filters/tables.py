@@ -1,6 +1,8 @@
 import django_filters
+from django.db.models import Q
 
 from pss.models import Customer
+from repairs.models import Project
 
 
 class CustomerTableFilter(django_filters.FilterSet):
@@ -14,3 +16,23 @@ class CustomerTableFilter(django_filters.FilterSet):
     class Meta:
         model = Customer
         fields = ("q",)
+
+
+class ProjectTableFilter(django_filters.FilterSet):
+    """Project data table filters"""
+
+    q = django_filters.CharFilter(method="filter_q")
+    status = django_filters.MultipleChoiceFilter(choices=Project.Status.choices)
+
+    def filter_q(self, queryset, name, value):
+        # TODO: make BD/BDA filterable
+
+        return queryset.filter(
+            Q(name__icontains=value)
+            | Q(territory__label__icontains=value)
+            | Q(territory__name__icontains=value)
+        )
+
+    class Meta:
+        model = Project
+        fields = ("customer", "status", "q")
