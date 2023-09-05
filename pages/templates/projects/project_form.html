@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>New project</h2>
+<h2>{% if project %}{{ project.name}}{% else %}New project{% endif %}</h2>
 <h6 class="mt-2">
   <a href="{% url 'customer-detail' pk=customer.pk %}">{{ customer.name }}</a>
 </h6>
