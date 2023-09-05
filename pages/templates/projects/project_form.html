@@ -37,6 +37,11 @@
       {{ form.territory }} 
     </div>
 
+    <div class="text-field--filled mt-4">
+      <label for="{{ form.contacts.id_for_label }}">Contacts</label>
+      {{ form.contacts }}
+    </div>
+
     <div class="mt-4">
       <button class="btn--filled" type="submit">
         {% if customer %}Save{% else %}Create{% endif %}
