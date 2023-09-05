@@ -47,7 +47,9 @@ class DataTable {
 
     data.results?.forEach(row => {
       const tr = $("<tr></tr>")
-      Object.values(row).forEach(value => $(tr).append(`<td>${value}</td>`))
+      Object.values(row).forEach(value => {
+        $(tr).append(`<td>${value === null ? '---' : value}</td>`)
+      })
       $(tbody).append(tr)
     })
   }
