@@ -1,5 +1,23 @@
 from django import forms
 
+from repairs.models import Project
+
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = (
+            "customer",
+            "name",
+            "description",
+            "business_development_manager",
+            "business_development_administrator",
+            "territory",
+        )
+        widgets = {
+            "description": forms.TextInput(),
+        }
+
 
 class ProjectMeasurementsForm(forms.Form):
     """Project measurements CSV upload"""

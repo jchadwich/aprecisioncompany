@@ -12,11 +12,13 @@ from django.views.generic import DetailView, FormView, ListView
 from pydantic import ValidationError
 
 from pages.forms.projects import (
+    ProjectForm,
     ProjectInstructionsForm,
     ProjectMeasurementsForm,
     SurveyInstructionsForm,
 )
 from repairs.models import Measurement, Project
+from pss.models import Customer
 
 LOGGER = logging.getLogger(__name__)
 
@@ -47,6 +49,28 @@ class ProjectDetailView(DetailView):
             context["centroid"] = list(centroid)
 
         return context
+
+
+class ProjectCreateView(FormView):
+    form_class = ProjectForm
+    template_name = "projects/project_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["customer"] = get_object_or_404(Customer, pk=self.kwargs["pk"])
+        return context
+
+    def get_success_url(self):
+        return reverse("customer-detail", kwargs={"pk": self.kwargs["pk"]})
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+
+class ProjectUpdateView(FormView):
+    form_class = ProjectForm
+    template_name = "projects/project_form.html"
 
 
 class ProjectMeasurementsImportView(FormView):
