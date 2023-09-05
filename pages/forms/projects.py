@@ -15,6 +15,7 @@ class ProjectForm(forms.ModelForm):
             "territory",
         )
         widgets = {
+            "customer": forms.HiddenInput(),
             "description": forms.TextInput(),
         }
 

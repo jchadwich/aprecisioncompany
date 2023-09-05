@@ -9,7 +9,8 @@
 <div class="mt-16 w-128">
   <form method="POST">
     {% csrf_token %}
-    <input name="customer" value="{{ customer.pk}}" hidden>
+
+    {{ form.customer }}
 
     <div class="text-field--filled">
       <label for="{{ form.name.id_for_label }}">Name</label>

@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, reverse
+from django.shortcuts import reverse
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 

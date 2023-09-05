@@ -2,13 +2,20 @@
 {% load project_tags %}
 
 {% block content %}
-<h2>{{ project.name }}</h2>
-<h6 class="mt-2">
-  <a href="{% url 'customer-detail' pk=project.customer.pk %}">
-    {{ project.customer.name }}
-  </a>
-  &#8212; {{ project.territory.name }} ({{ project.territory.label }})
-</h6>
+<div class="flex align-items-center justify-content-between">
+  <div>
+    <h2>{{ project.name }}</h2>
+    <h6 class="mt-2">
+      <a href="{% url 'customer-detail' pk=project.customer.pk %}">
+        {{ project.customer.name }}
+      </a>
+      &#8212; {{ project.territory.name }} ({{ project.territory.label }})
+    </h6>
+  </div>
+  <div>
+    <a class="btn--filled" href="{% url 'project-update' pk=project.pk %}">Edit</a>
+  </div>
+</div>
 
 <div class="mt-12">
   <h4>Documents</h4>

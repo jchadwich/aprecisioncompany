@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, reverse
 from django.utils.text import slugify
 from django.views import View
-from django.views.generic import DetailView, FormView, ListView
+from django.views.generic import CreateView, DetailView, FormView, ListView, UpdateView
 from pydantic import ValidationError
 
 from pages.forms.projects import (
@@ -17,8 +17,8 @@ from pages.forms.projects import (
     ProjectMeasurementsForm,
     SurveyInstructionsForm,
 )
-from repairs.models import Measurement, Project
 from pss.models import Customer
+from repairs.models import Measurement, Project
 
 LOGGER = logging.getLogger(__name__)
 
@@ -51,9 +51,15 @@ class ProjectDetailView(DetailView):
         return context
 
 
-class ProjectCreateView(FormView):
+class ProjectCreateView(CreateView):
+    model = Project
     form_class = ProjectForm
     template_name = "projects/project_form.html"
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["customer"] = get_object_or_404(Customer, pk=self.kwargs["pk"])
+        return initial
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -63,14 +69,19 @@ class ProjectCreateView(FormView):
     def get_success_url(self):
         return reverse("customer-detail", kwargs={"pk": self.kwargs["pk"]})
 
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
 
-
-class ProjectUpdateView(FormView):
+class ProjectUpdateView(UpdateView):
+    model = Project
     form_class = ProjectForm
     template_name = "projects/project_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["customer"] = self.get_object().customer
+        return context
+
+    def get_success_url(self):
+        return reverse("project-detail", kwargs={"pk": self.kwargs["pk"]})
 
 
 class ProjectMeasurementsImportView(FormView):
