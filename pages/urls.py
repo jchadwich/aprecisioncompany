@@ -1,6 +1,12 @@
 from django.urls import path
 
-from pages.views import customer_views, index_views, map_views, project_views
+from pages.views import (
+    contact_views,
+    customer_views,
+    index_views,
+    map_views,
+    project_views,
+)
 
 urlpatterns = [
     path("customers/", customer_views.CustomerListView.as_view(), name="customer-list"),
@@ -23,6 +29,11 @@ urlpatterns = [
         "customers/<int:pk>/projects/new/",
         project_views.ProjectCreateView.as_view(),
         name="customer-project-create",
+    ),
+    path(
+        "customers/<int:pk>/contacts/new/",
+        contact_views.ContactCreateView.as_view(),
+        name="customer-contact-create",
     ),
     path("projects/", project_views.ProjectListView.as_view(), name="project-list"),
     path(
@@ -59,6 +70,11 @@ urlpatterns = [
         "projects/<int:pk>/instructions/project/",
         project_views.ProjectInstructionsView.as_view(),
         name="project-pi",
+    ),
+    path(
+        "contacts/<int:pk>/edit/",
+        contact_views.ContactUpdateView.as_view(),
+        name="contact-update",
     ),
     path("map/", map_views.MapView.as_view(), name="map"),
     path("", index_views.IndexView.as_view(), name="index"),

@@ -10,8 +10,9 @@ class ContactTableSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
 
     def get_name(self, obj):
-        # TODO: change to an HTML link
-        return obj.name
+        href = reverse("contact-update", kwargs={"pk": obj.pk})
+        html = f'<a href="{href}">{obj.name}</a>'
+        return mark_safe(html)
 
     class Meta:
         model = Contact

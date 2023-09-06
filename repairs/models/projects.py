@@ -52,6 +52,11 @@ class Project(models.Model):
         """Return the primary Contact (if exists)"""
         return self.contacts.order_by("projectcontact__order").first()
 
+    @property
+    def secondary_contact(self):
+        """Return the secondary Contact (if exists)"""
+        return self.contacts.order_by("projectcontact__order")[1:1]
+
     def get_bbox(self, buffer_fraction=0):
         """Return the bounding box of the Measurements"""
         union = self.measurements.aggregate(union=Union("coordinate"))["union"]
@@ -134,7 +139,7 @@ class Project(models.Model):
     def set_contact(self, contact, order=1):
         """Set a Project's contact"""
         with transaction.atomic():
-            self.contacts.filter(order=order).delete()
+            self.contacts.filter(projectcontact__order=order).delete()
 
             if contact:
                 ProjectContact.objects.create(
