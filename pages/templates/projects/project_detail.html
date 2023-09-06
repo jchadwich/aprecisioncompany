@@ -34,7 +34,15 @@
       {% with primary=project.primary_contact %}
       <tr>
         <td>Primary</td>
-        <td>{{ primary.name }}</td>
+        <td>
+        {% if primary %}
+          <a href="{% url 'contact-update' pk=primary.pk %}">
+            {{ primary.name|default:"---" }}
+          </a>
+        {% else %}
+          ---
+        {% endif %}
+        </td>
         <td>{{ primary.email|default:"---" }}</td>
         <td>{{ primary.phone_number|default:"---" }}</td>
         <td>{{ primary.extension|default:"---" }}</td>
@@ -45,7 +53,15 @@
       {% with secondary=project.secondary_contact %}
       <tr>
         <td>Secondary</td>
-        <td>{{ secondary.name|default:"---" }}</td>
+        <td>
+        {% if secondary %}
+          <a href="{% url 'contact-update' pk=secondary.pk %}">
+            {{ secondary.name|default:"---" }}
+          </a>
+        {% else %}
+          ---
+        {% endif %}
+        </td>
         <td>{{ secondary.email|default:"---" }}</td>
         <td>{{ secondary.phone_number|default:"---" }}</td>
         <td>{{ secondary.extension|default:"---" }}</td>
