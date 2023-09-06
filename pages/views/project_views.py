@@ -75,6 +75,13 @@ class ProjectUpdateView(UpdateView):
     form_class = ProjectForm
     template_name = "projects/project_form.html"
 
+    def get_initial(self):
+        project = self.get_object()
+        initial = super().get_initial()
+        initial["primary_contact"] = project.primary_contact
+        initial["secondary_contact"] = project.secondary_contact
+        return initial
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["customer"] = self.get_object().customer

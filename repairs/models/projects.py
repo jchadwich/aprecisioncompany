@@ -50,12 +50,12 @@ class Project(models.Model):
     @property
     def primary_contact(self):
         """Return the primary Contact (if exists)"""
-        return self.contacts.order_by("projectcontact__order").first()
+        return self.contacts.filter(projectcontact__order=0).first()
 
     @property
     def secondary_contact(self):
         """Return the secondary Contact (if exists)"""
-        return self.contacts.order_by("projectcontact__order")[1:1]
+        return self.contacts.filter(projectcontact__order=1).first()
 
     def get_bbox(self, buffer_fraction=0):
         """Return the bounding box of the Measurements"""
@@ -136,10 +136,10 @@ class Project(models.Model):
         # TODO: define logic
         return False
 
-    def set_contact(self, contact, order=1):
+    def set_contact(self, contact, order=0):
         """Set a Project's contact"""
         with transaction.atomic():
-            self.contacts.filter(projectcontact__order=order).delete()
+            ProjectContact.objects.filter(project=self, order=order).delete()
 
             if contact:
                 ProjectContact.objects.create(
