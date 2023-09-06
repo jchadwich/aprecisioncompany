@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>
-  New project for {{ customer.name }}
-</h2>
+<h2>{% if project %}{{ project.name}}{% else %}New project{% endif %}</h2>
+<h6 class="mt-2">
+  <a href="{% url 'customer-detail' pk=customer.pk %}">{{ customer.name }}</a>
+</h6>
 
 <div class="mt-16 w-128">
   <form method="POST">
     {% csrf_token %}
+
+    {{ form.customer }}
 
     <div class="text-field--filled">
       <label for="{{ form.name.id_for_label }}">Name</label>
@@ -32,6 +35,16 @@
     <div class="text-field--filled mt-4">
       <label for="{{ form.territory.id_for_label }}">Territory</label>
       {{ form.territory }} 
+    </div>
+
+    <div class="text-field--filled mt-4">
+      <label for="{{ form.primary_contact.id_for_label }}">Primary Contact</label>
+      {{ form.primary_contact }}
+    </div>
+    
+    <div class="text-field--filled mt-4">
+      <label for="{{ form.secondary_contact.id_for_label }}">Secondary Contact</label>
+      {{ form.secondary_contact }}
     </div>
 
     <div class="mt-4">

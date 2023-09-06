@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.gis.db.models.aggregates import Union
-from django.db import models
+from django.db import models, transaction
 
 from pss.models import Contact, Customer, Territory
 
@@ -130,6 +130,16 @@ class Project(models.Model):
         """Return True if the post-project review exists"""
         # TODO: define logic
         return False
+
+    def set_contact(self, contact, order=1):
+        """Set a Project's contact"""
+        with transaction.atomic():
+            self.contacts.filter(order=order).delete()
+
+            if contact:
+                ProjectContact.objects.create(
+                    project=self, contact=contact, order=order
+                )
 
 
 class ProjectContact(models.Model):

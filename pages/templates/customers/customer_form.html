@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>
-  {% if customer %}Edit {{ customer.name }}{% else %}New customer{% endif %}
-</h2>
+<h2>{% if customer %}{{ customer.name }}{% else %}New customer{% endif %}</h2>
 
 <div class="mt-8 w-128">
   <form method="POST">

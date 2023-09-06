@@ -21,7 +21,7 @@ urlpatterns = [
     ),
     path(
         "customers/<int:pk>/projects/new/",
-        customer_views.CustomerProjectCreateView.as_view(),
+        project_views.ProjectCreateView.as_view(),
         name="customer-project-create",
     ),
     path("projects/", project_views.ProjectListView.as_view(), name="project-list"),
@@ -29,6 +29,11 @@ urlpatterns = [
         "projects/<int:pk>/",
         project_views.ProjectDetailView.as_view(),
         name="project-detail",
+    ),
+    path(
+        "projects/<int:pk>/edit/",
+        project_views.ProjectUpdateView.as_view(),
+        name="project-update",
     ),
     path(
         "projects/<int:pk>/measurements/<str:stage>/",
