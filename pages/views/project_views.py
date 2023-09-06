@@ -58,7 +58,7 @@ class ProjectCreateView(CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        initial["customer"] = get_object_or_404(Customer, pk=self.kwargs["pk"])
+        initial["customer"] = self.kwargs["pk"]
         return initial
 
     def get_context_data(self, **kwargs):
