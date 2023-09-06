@@ -1,9 +1,23 @@
 from rest_framework import viewsets
 
-from api.filters.tables import CustomerTableFilter, ProjectTableFilter
-from api.serializers.tables import CustomerTableSerializer, ProjectTableSerializer
-from pss.models import Customer
+from api.filters.tables import (
+    ContactTableFilter,
+    CustomerTableFilter,
+    ProjectTableFilter,
+)
+from api.serializers.tables import (
+    ContactTableSerializer,
+    CustomerTableSerializer,
+    ProjectTableSerializer,
+)
+from pss.models import Contact, Customer
 from repairs.models import Project
+
+
+class ContactTableViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Contact.objects.order_by("id")
+    serializer_class = ContactTableSerializer
+    filterset_class = ContactTableFilter
 
 
 class CustomerTableViewSet(viewsets.ReadOnlyModelViewSet):

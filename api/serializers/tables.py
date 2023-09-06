@@ -2,8 +2,20 @@ from django.shortcuts import reverse
 from django.utils.html import mark_safe
 from rest_framework import serializers
 
-from pss.models import Customer
+from pss.models import Contact, Customer
 from repairs.models import Project
+
+
+class ContactTableSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
+    def get_name(self, obj):
+        # TODO: change to an HTML link
+        return obj.name
+
+    class Meta:
+        model = Contact
+        fields = ("name", "email", "phone_number", "extension")
 
 
 class CustomerTableSerializer(serializers.ModelSerializer):
