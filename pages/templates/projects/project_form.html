@@ -46,6 +46,13 @@
       <label for="{{ form.secondary_contact.id_for_label }}">Secondary Contact</label>
       {{ form.secondary_contact }}
     </div>
+    
+    {% if project %}
+    <div class="text-field--filled mt-4">
+      <label for="{{ form.status.id_for_label }}">Status</label>
+      {{ form.status }}
+    </div>
+    {% endif %}
 
     <div class="mt-4">
       <button class="btn--filled" type="submit">

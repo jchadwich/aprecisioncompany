@@ -18,6 +18,44 @@
 </div>
 
 <div class="mt-12">
+  <h4>Contacts</h4>
+  <table class="table mt-2">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Extension</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Primary contact -->
+      {% with primary=project.primary_contact %}
+      <tr>
+        <td>Primary</td>
+        <td>{{ primary.name }}</td>
+        <td>{{ primary.email|default:"---" }}</td>
+        <td>{{ primary.phone_number|default:"---" }}</td>
+        <td>{{ primary.extension|default:"---" }}</td>
+      </tr>
+      {% endwith %}
+      
+      <!-- Secondary contact -->
+      {% with secondary=project.secondary_contact %}
+      <tr>
+        <td>Secondary</td>
+        <td>{{ secondary.name|default:"---" }}</td>
+        <td>{{ secondary.email|default:"---" }}</td>
+        <td>{{ secondary.phone_number|default:"---" }}</td>
+        <td>{{ secondary.extension|default:"---" }}</td>
+      </tr>
+      {% endwith %}
+    </tbody>
+  </table>
+</div>
+
+<div class="mt-12">
   <h4>Documents</h4>
   <table class="table mt-2">
     <thead>

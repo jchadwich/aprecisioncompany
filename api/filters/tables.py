@@ -1,8 +1,21 @@
 import django_filters
 from django.db.models import Q
 
-from pss.models import Customer
+from pss.models import Contact, Customer
 from repairs.models import Project
+
+
+class ContactTableFilter(django_filters.FilterSet):
+    """Contact data table filters"""
+
+    q = django_filters.CharFilter(method="filter_q")
+
+    def filter_q(self, queryset, name, value):
+        return queryset.filter(Q(name__icontains=value) | Q(email__icontains=value))
+
+    class Meta:
+        model = Contact
+        fields = ("customer", "q")
 
 
 class CustomerTableFilter(django_filters.FilterSet):
