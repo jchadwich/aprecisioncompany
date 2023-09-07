@@ -45,6 +45,10 @@ class Measurement(models.Model):
     measured_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        (x, y) = self.coordinate.coords
+        return f"{self.project.name} - {self.object_id} - ({x}, {y})"
+
     @staticmethod
     def import_from_csv(file_obj, project, stage):
         """Import the Measurements from CSV (replaces any existing)"""

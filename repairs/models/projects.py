@@ -47,6 +47,9 @@ class Project(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+
     @property
     def primary_contact(self):
         """Return the primary Contact (if exists)"""
@@ -154,3 +157,6 @@ class ProjectContact(models.Model):
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
     order = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.project.name} - {self.contact.name} - {self.order}"

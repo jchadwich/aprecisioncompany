@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "django.contrib.gis",
     "django_extensions",
     "compressor",
     "microsoft_auth",

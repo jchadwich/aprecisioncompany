@@ -15,6 +15,9 @@ class Customer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+
     @property
     def short_address(self):
         """Return the city, state address"""
@@ -55,7 +58,7 @@ class Contact(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.customer.name} - {self.name}"
 
 
 class Territory(models.Model):
@@ -66,4 +69,4 @@ class Territory(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.name} ({self.label})"
+        return f"{self.name} - {self.label}"
