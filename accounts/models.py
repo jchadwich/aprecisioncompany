@@ -10,5 +10,9 @@ class User(AbstractUser):
         return self.full_name
 
     def save(self, **kwargs):
+        if not self.username:
+            self.username = self.email
+
         self.full_name = f"{self.first_name} {self.last_name}"
+
         return super().save(**kwargs)
