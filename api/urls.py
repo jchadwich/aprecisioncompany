@@ -19,6 +19,11 @@ router.register(
     tables.ProjectTableViewSet,
     basename="tables-projects",
 )
+router.register(
+    "tables/users",
+    tables.UserTableViewSet,
+    basename="tables-users",
+)
 
 
 urlpatterns = router.urls

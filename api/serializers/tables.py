@@ -1,9 +1,12 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import reverse
 from django.utils.html import mark_safe
 from rest_framework import serializers
 
 from pss.models import Contact, Customer
 from repairs.models import Project
+
+User = get_user_model()
 
 
 class ContactTableSerializer(serializers.ModelSerializer):
@@ -96,3 +99,44 @@ class ProjectTableSerializer(serializers.ModelSerializer):
             "primary_contact",
             "created",
         )
+
+
+class UserTableSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    is_active = serializers.SerializerMethodField()
+    is_staff = serializers.SerializerMethodField()
+    created = serializers.SerializerMethodField()
+    last_login = serializers.SerializerMethodField()
+
+    def get_name(self, obj):
+        href = reverse("user-update", kwargs={"pk": obj.pk})
+        html = f'<a href="{href}">{obj.full_name}</a>'
+        return mark_safe(html)
+
+    def get_is_active(self, obj):
+        if obj.is_active:
+            html = '<span class="icon icon--success">check_circle</span>'
+        else:
+            html = '<span class="icon icon--error">cancel</span>'
+
+        return mark_safe(html)
+
+    def get_is_staff(self, obj):
+        if obj.is_staff:
+            html = '<span class="icon icon--success">check_circle</span>'
+        else:
+            html = '<span class="icon icon--error">cancel</span>'
+
+        return mark_safe(html)
+
+    def get_created(self, obj):
+        return obj.date_joined.strftime("%-m/%-d/%Y")
+
+    def get_last_login(self, obj):
+        if obj.last_login:
+            return obj.last_login.strftime("%-m/%-d/%Y %-I:%M %p")
+        return None
+
+    class Meta:
+        model = User
+        fields = ("name", "email", "is_active", "is_staff", "created", "last_login")

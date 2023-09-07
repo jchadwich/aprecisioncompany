@@ -1,8 +1,11 @@
 import django_filters
+from django.contrib.auth import get_user_model
 from django.db.models import Q
 
 from pss.models import Contact, Customer
 from repairs.models import Project
+
+User = get_user_model()
 
 
 class ContactTableFilter(django_filters.FilterSet):
@@ -49,3 +52,18 @@ class ProjectTableFilter(django_filters.FilterSet):
     class Meta:
         model = Project
         fields = ("customer", "status", "q")
+
+
+class UserTableFilter(django_filters.FilterSet):
+    """User data table filters"""
+
+    q = django_filters.CharFilter(method="filter_q")
+
+    def filter_q(self, queryset, name, value):
+        return queryset.filter(
+            Q(full_name__icontains=value) | Q(email__icontains=value)
+        )
+
+    class Meta:
+        model = User
+        fields = ("q",)

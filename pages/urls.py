@@ -6,6 +6,7 @@ from pages.views import (
     index_views,
     map_views,
     project_views,
+    user_views,
 )
 
 urlpatterns = [
@@ -77,5 +78,10 @@ urlpatterns = [
         name="contact-update",
     ),
     path("map/", map_views.MapView.as_view(), name="map"),
+    path("users/", user_views.UserListView.as_view(), name="user-list"),
+    path("users/new/", user_views.UserCreateView.as_view(), name="user-create"),
+    path(
+        "users/<int:pk>/edit/", user_views.UserUpdateView.as_view(), name="user-update"
+    ),
     path("", index_views.IndexView.as_view(), name="index"),
 ]
