@@ -1,19 +1,21 @@
 $(document).ready(() => {
   const { origin, pathname } = window.location;
+  const navLinks = $(`nav a[class="nav-item"]`).toArray()
+  
   let activeLink = null
 
-  $(`nav a[class="nav-item"]`).each((_, link) => {
-    const path = $(link).prop("href").replace(origin, "")
+  for (navLink of navLinks) {
+    const path = $(navLink).prop("href").replace(origin, "")
 
     if (path === "/" && origin === pathname) {
-      activeLink = link
+      activeLink = navLink
       break
     }
 
     if (pathname.startsWith(path)) {
-      activeLink = link;
+      activeLink = navLink;
     }
-  })
+  }
 
   if (!!activeLink) {
     $(activeLink).addClass("active");
